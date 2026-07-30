@@ -558,6 +558,25 @@
     .install-grid{grid-template-columns:1fr;}
     .install-cta{padding:44px 26px;}
   }
+  @media (max-width: 480px){
+    .modal-overlay{padding:12px;}
+    .modal-box{padding:26px 20px; border-radius:16px;}
+    .modal-box h3{font-size:19px; margin-top:14px;}
+    .modal-sub{font-size:13.5px; margin-bottom:18px;}
+    .modal-close{top:12px; right:12px; width:28px; height:28px;}
+    .payment-amount{padding:14px;}
+    .payment-amount .value{font-size:24px;}
+    .bank-box{padding:14px 16px;}
+    .bank-box-row{flex-wrap:wrap; row-gap:8px;}
+    .bank-box-value{font-size:14.5px; word-break:break-word;}
+    .bank-box-value.mono{font-size:16px;}
+    .copy-btn{padding:6px 10px; font-size:11.5px;}
+    /* font-size 16px pada input mencegah Safari iOS otomatis zoom-in
+       saat field di-tap (kalau di bawah 16px, iOS selalu zoom paksa) */
+    .modal-field input{font-size:16px; padding:11px 12px;}
+    .feature-flash{font-size:12.5px; padding:10px 14px 10px 12px; gap:8px;}
+    .feature-flash .new-tag{font-size:10px; padding:3px 9px;}
+  }
 </style>
 </head>
 <body>
