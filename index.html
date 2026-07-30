@@ -1120,6 +1120,11 @@
     </div>
 
     <label class="modal-field" style="margin-bottom:16px;">
+      <span>Nama Lengkap</span>
+      <input type="text" id="paymentCustomerName" placeholder="Nama kamu">
+    </label>
+
+    <label class="modal-field" style="margin-bottom:16px;">
       <span>Upload Bukti Transfer</span>
       <input type="file" id="paymentProofFile" accept="image/*,.pdf">
     </label>
@@ -1172,6 +1177,7 @@
     pendingWhatsAppUrl = null;
     document.getElementById('paymentPackageLabel').textContent = 'Paket: ' + packageName;
     document.getElementById('paymentAmount').textContent = amount;
+    document.getElementById('paymentCustomerName').value = '';
     document.getElementById('paymentProofFile').value = '';
     document.getElementById('paymentUploadStatus').textContent = 'Setelah upload, pesan konfirmasi WhatsApp otomatis terisi (paket, jumlah transfer, & link bukti). Lisensi diaktifkan begitu admin verifikasi pembayaran.';
     document.getElementById('paymentUploadStatus').style.color = '';
@@ -1198,7 +1204,9 @@
     });
   }
   function openWhatsAppConfirmation(driveFileUrl){
+    var customerName = document.getElementById('paymentCustomerName').value.trim();
     var msg = 'Halo, saya mau konfirmasi pembayaran lisensi Picdrop Upload Assistant.\n\n' +
+      (customerName ? 'Nama: ' + customerName + '\n' : '') +
       'Durasi langganan: ' + currentPaymentPackage + '\n' +
       'Total transfer: ' + currentPaymentAmount + '\n' +
       'Rekening tujuan: BCA 8465804455 a.n. Dwi Yudianto\n\n' +
