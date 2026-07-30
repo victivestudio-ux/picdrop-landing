@@ -1128,7 +1128,7 @@
 
     <button type="button" class="btn btn-primary" style="width:100%; justify-content:center;" id="paymentSubmitBtn" onclick="submitPaymentProof()">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.28-1.38a9.87 9.87 0 0 0 4.71 1.2h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2m0 1.67c2.23 0 4.32.87 5.89 2.44a8.26 8.26 0 0 1 2.43 5.8c0 4.55-3.71 8.24-8.29 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.55 3.72-8.24 8.22-8.24m-4.53 4.7c-.16 0-.42.06-.64.3-.22.24-.85.83-.85 2.02s.87 2.35 1 2.51c.12.16 1.7 2.71 4.2 3.7 2.08.82 2.5.66 2.95.62.45-.04 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28-.24-.12-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12-.16.24-.63.8-.78.96-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.42h-.46"/></svg>
-      Kirim Bukti &amp; Konfirmasi via WhatsApp
+      <span class="btn-label">Kirim Bukti &amp; Konfirmasi via WhatsApp</span>
     </button>
   </div>
 </div>
@@ -1169,13 +1169,13 @@
   function openPaymentModal(packageName, amount){
     currentPaymentPackage = packageName;
     currentPaymentAmount = amount;
+    pendingWhatsAppUrl = null;
     document.getElementById('paymentPackageLabel').textContent = 'Paket: ' + packageName;
     document.getElementById('paymentAmount').textContent = amount;
     document.getElementById('paymentProofFile').value = '';
     document.getElementById('paymentUploadStatus').textContent = 'Setelah upload, pesan konfirmasi WhatsApp otomatis terisi (paket, jumlah transfer, & link bukti). Lisensi diaktifkan begitu admin verifikasi pembayaran.';
     document.getElementById('paymentUploadStatus').style.color = '';
-    var btn = document.getElementById('paymentSubmitBtn');
-    btn.disabled = false;
+    resetPaymentSubmitButton();
     document.getElementById('paymentModal').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -1197,27 +1197,41 @@
       setTimeout(function(){ btn.innerHTML = original; }, 1800);
     });
   }
-  function openWhatsAppConfirmation(driveFileUrl, preOpenedWindow){
-    var msg = 'Halo, saya sudah transfer untuk lisensi Picdrop Upload Assistant paket ' + currentPaymentPackage + ' (' + currentPaymentAmount + ') ke rekening BCA 8465804455 a.n. Dwi Yudianto.';
+  function openWhatsAppConfirmation(driveFileUrl){
+    var msg = 'Halo, saya mau konfirmasi pembayaran lisensi Picdrop Upload Assistant.\n\n' +
+      'Durasi langganan: ' + currentPaymentPackage + '\n' +
+      'Total transfer: ' + currentPaymentAmount + '\n' +
+      'Rekening tujuan: BCA 8465804455 a.n. Dwi Yudianto\n\n' +
+      'Saya sudah transfer sesuai jumlah di atas.';
     if(driveFileUrl){
       msg += ' Bukti transfer sudah saya upload: ' + driveFileUrl;
     } else {
       msg += ' Berikut saya lampirkan bukti transfernya.';
     }
-    var url = 'https://wa.me/6287722121222?text=' + encodeURIComponent(msg);
-    if(preOpenedWindow && !preOpenedWindow.closed){
-      // Tab-nya sudah dibuka SAAT tombol diklik (masih dianggap aksi
-      // user langsung oleh browser) — di sini tinggal diarahkan ke URL
-      // WhatsApp final-nya. Ini menghindari popup blocker yang sering
-      // memblokir window.open() kalau dipanggil setelah proses async
-      // (fetch upload) selesai, karena saat itu browser sudah tidak
-      // menganggapnya sebagai klik langsung dari user.
-      preOpenedWindow.location.href = url;
-    } else {
-      // Fallback kalau pre-open gagal/di-block duluan (jarang terjadi).
-      window.open(url, '_blank', 'noopener');
+    return 'https://wa.me/6287722121222?text=' + encodeURIComponent(msg);
+  }
+  var pendingWhatsAppUrl = null;
+  function openPendingWhatsApp(){
+    // Ini dipanggil dari klik LANGSUNG milik user (bukan dari dalam
+    // .then()/fetch), jadi window.open() di sini tidak akan pernah kena
+    // popup blocker — beda dari pendekatan sebelumnya yang mencoba
+    // membuka tab dari dalam callback asinkron.
+    if(pendingWhatsAppUrl){
+      window.open(pendingWhatsAppUrl, '_blank', 'noopener');
     }
     closePaymentModal();
+  }
+  function resetPaymentSubmitButton(){
+    var btn = document.getElementById('paymentSubmitBtn');
+    btn.disabled = false;
+    btn.onclick = submitPaymentProof;
+    btn.querySelector('.btn-label').textContent = 'Kirim Bukti & Konfirmasi via WhatsApp';
+  }
+  function switchToOpenWhatsAppButton(){
+    var btn = document.getElementById('paymentSubmitBtn');
+    btn.disabled = false;
+    btn.onclick = openPendingWhatsApp;
+    btn.querySelector('.btn-label').textContent = 'Buka WhatsApp Sekarang';
   }
   function submitPaymentProof(){
     var fileInput = document.getElementById('paymentProofFile');
@@ -1225,13 +1239,9 @@
     var btn = document.getElementById('paymentSubmitBtn');
     var file = fileInput.files[0];
 
-    // Buka tab kosong SEKARANG, sinkron dengan klik tombol — ini kunci
-    // supaya browser tidak menganggapnya popup liar. Diarahkan ke
-    // WhatsApp begitu proses upload (yang asinkron) selesai.
-    var waWindow = window.open('about:blank', '_blank');
-
     if(!file){
-      openWhatsAppConfirmation(null, waWindow);
+      pendingWhatsAppUrl = openWhatsAppConfirmation(null);
+      openPendingWhatsApp();
       return;
     }
 
@@ -1255,21 +1265,21 @@
       .then(function(res){ return res.json(); })
       .then(function(data){
         if(data.ok){
-          statusEl.textContent = 'Bukti transfer berhasil diupload. Membuka WhatsApp...';
+          statusEl.textContent = 'Bukti transfer berhasil diupload. Klik tombol di bawah untuk lanjut ke WhatsApp.';
           statusEl.style.color = 'var(--teal)';
-          openWhatsAppConfirmation(data.fileUrl, waWindow);
+          pendingWhatsAppUrl = openWhatsAppConfirmation(data.fileUrl);
         } else {
-          statusEl.textContent = 'Upload gagal: ' + (data.error || 'Terjadi kesalahan') + '. Lanjut ke WhatsApp, lampirkan bukti manual di sana.';
+          statusEl.textContent = 'Upload gagal: ' + (data.error || 'Terjadi kesalahan') + '. Klik tombol di bawah untuk tetap lanjut ke WhatsApp (lampirkan bukti manual di sana).';
           statusEl.style.color = '#f87171';
-          btn.disabled = false;
-          openWhatsAppConfirmation(null, waWindow);
+          pendingWhatsAppUrl = openWhatsAppConfirmation(null);
         }
+        switchToOpenWhatsAppButton();
       })
       .catch(function(){
-        statusEl.textContent = 'Upload gagal (koneksi). Lanjut ke WhatsApp, lampirkan bukti manual di sana.';
+        statusEl.textContent = 'Upload gagal (koneksi). Klik tombol di bawah untuk tetap lanjut ke WhatsApp (lampirkan bukti manual di sana).';
         statusEl.style.color = '#f87171';
-        btn.disabled = false;
-        openWhatsAppConfirmation(null, waWindow);
+        pendingWhatsAppUrl = openWhatsAppConfirmation(null);
+        switchToOpenWhatsAppButton();
       });
     };
     reader.readAsDataURL(file);
