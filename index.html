@@ -393,6 +393,66 @@
   @media (prefers-reduced-motion: reduce){
     .chip, .dot-live{animation:none;}
   }
+
+  /* ---------- Modal (Trial / Pilih Paket) ---------- */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; z-index:100; background:rgba(5,8,16,.72);
+    backdrop-filter:blur(4px); align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    width:100%; max-width:440px; background:var(--surface); border:1px solid var(--line);
+    border-radius:16px; padding:28px; position:relative; box-shadow:0 40px 80px -30px rgba(0,0,0,.7);
+  }
+  .modal-close{
+    position:absolute; top:16px; right:16px; width:30px; height:30px; border-radius:8px;
+    background:var(--bg-soft); border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--muted);
+  }
+  .modal-close svg{width:14px; height:14px;}
+  .modal-box h3{font-size:19px; margin-bottom:6px; padding-right:30px;}
+  .modal-sub{font-size:13.5px; color:var(--muted); margin-bottom:22px;}
+  .modal-field{margin-bottom:14px;}
+  .modal-field label{display:block; font-size:12.5px; color:var(--muted); margin-bottom:6px; font-weight:500;}
+  .modal-field input{
+    width:100%; background:var(--bg-soft); border:1px solid var(--line); border-radius:9px;
+    padding:11px 13px; color:var(--text); font-family:var(--body); font-size:14.5px;
+  }
+  .modal-field input:focus{outline:none; border-color:var(--accent);}
+  .modal-field input::placeholder{color:var(--muted-2);}
+  .modal-note{font-size:11.5px; color:var(--muted-2); margin-top:16px; text-align:center;}
+
+  .pay-summary{
+    background:var(--bg-soft); border:1px solid var(--line); border-radius:10px; padding:14px; margin-bottom:16px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .pay-summary span{font-size:12.5px; color:var(--muted);}
+  .pay-summary b{font-family:var(--display); font-size:18px;}
+  .pay-methods{display:flex; flex-direction:column; gap:10px; margin-bottom:16px;}
+  .pay-method{background:var(--bg-soft); border:1px solid var(--line); border-radius:10px; padding:12px 14px;}
+  .pay-method .pm-label{font-size:11px; color:var(--muted-2); font-family:var(--mono); margin-bottom:4px;}
+  .pay-method .pm-value{font-size:14.5px; font-weight:600; display:flex; justify-content:space-between; align-items:center; gap:8px;}
+  .pay-copy{
+    font-family:var(--body); font-weight:600; font-size:11.5px; color:var(--accent-2); background:var(--surface-2);
+    border:1px solid var(--line); border-radius:6px; padding:5px 9px; cursor:pointer; flex:none;
+  }
+  .pay-copy:hover{border-color:var(--accent);}
+  .upload-box{
+    border:1.5px dashed var(--line); border-radius:10px; padding:16px; text-align:center; cursor:pointer;
+    margin-bottom:16px; transition:border-color .15s ease;
+  }
+  .upload-box:hover{border-color:var(--accent-2);}
+  .upload-box svg{width:22px; height:22px; color:var(--accent-2); margin:0 auto 8px;}
+  .upload-box p{font-size:13px; color:var(--muted);}
+  .upload-box span{font-size:11.5px; color:var(--muted-2);}
+  .upload-preview{display:none; align-items:center; gap:10px; font-size:12.5px; color:var(--text);}
+  .upload-preview img{width:40px; height:40px; object-fit:cover; border-radius:6px; border:1px solid var(--line);}
+  .modal-back{
+    background:none; border:none; color:var(--muted); font-size:13px; cursor:pointer;
+    display:flex; align-items:center; gap:6px; margin-bottom:14px; padding:0;
+  }
+  .modal-back:hover{color:var(--text);}
+  .modal-back svg{width:14px; height:14px;}
 </style>
 </head>
 <body>
@@ -417,7 +477,7 @@
     </nav>
     <div class="nav-cta">
       <a class="btn btn-ghost btn-sm" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20tanya-tanya%20soal%20Picdrop%20Upload%20Assistant." target="_blank" rel="noopener">Chat Admin</a>
-      <a class="btn btn-primary btn-sm" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20fotografer%20Fo%2A%2AYu%20dan%20mau%20coba%20Picdrop%20Upload%20Assistant%20gratis%202%20hari.%20Boleh%20dibantu%3F" target="_blank" rel="noopener">Coba Gratis 2 Hari</a>
+      <button type="button" class="btn btn-primary btn-sm" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
       <button class="nav-toggle" id="navToggle" aria-label="Buka menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
@@ -442,7 +502,7 @@
     <h1>Upload ribuan foto ke Fo**Yu.<br>Bukan <em>satu-satu</em>.</h1>
     <p class="lead">Picdrop memindai folder event kamu, mengompres, lalu mengunggah paralel ke FotoTree yang benar — otomatis, anti-duplikat, dan bisa dipantau real-time dari satu dashboard.</p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20fotografer%20Fo%2A%2AYu%20dan%20mau%20coba%20Picdrop%20Upload%20Assistant%20gratis%202%20hari.%20Boleh%20dibantu%3F" target="_blank" rel="noopener">Coba Gratis 2 Hari</a>
+      <button type="button" class="btn btn-primary" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
       <a class="btn btn-ghost" href="https://wa.me/6287722121222" target="_blank" rel="noopener">Chat Admin via WhatsApp</a>
     </div>
     <div class="trust-row">
@@ -738,32 +798,32 @@
         <h4>1 Bulan</h4>
         <div class="amount">Rp100rb</div>
         <div class="per">Cocok untuk coba dulu di 1–2 event.</div>
-        <a class="btn btn-ghost btn-block btn-sm" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20pilih%20paket%20Picdrop%201%20Bulan." target="_blank" rel="noopener">Pilih Paket</a>
+        <button type="button" class="btn btn-ghost btn-block btn-sm" onclick="openModal('package', '1 Bulan')">Pilih Paket</button>
       </div>
       <div class="price-card">
         <h4>2 Bulan</h4>
         <div class="amount">Rp175rb</div>
         <div class="per">≈ Rp87.500/bulan.</div>
-        <a class="btn btn-ghost btn-block btn-sm" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20pilih%20paket%20Picdrop%202%20Bulan." target="_blank" rel="noopener">Pilih Paket</a>
+        <button type="button" class="btn btn-ghost btn-block btn-sm" onclick="openModal('package', '2 Bulan')">Pilih Paket</button>
       </div>
       <div class="price-card popular">
         <span class="popular-tag">Populer</span>
         <h4>6 Bulan</h4>
         <div class="amount">Rp500rb</div>
         <div class="per">≈ Rp83.300/bulan. Musim event aman.</div>
-        <a class="btn btn-primary btn-block btn-sm" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20pilih%20paket%20Picdrop%206%20Bulan." target="_blank" rel="noopener">Pilih Paket</a>
+        <button type="button" class="btn btn-primary btn-block btn-sm" onclick="openModal('package', '6 Bulan')">Pilih Paket</button>
       </div>
       <div class="price-card">
         <h4>1 Tahun</h4>
         <div class="amount">Rp1jt</div>
         <div class="per">≈ Rp83.300/bulan, dibayar sekali.</div>
-        <a class="btn btn-ghost btn-block btn-sm" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20pilih%20paket%20Picdrop%201%20Tahun." target="_blank" rel="noopener">Pilih Paket</a>
+        <button type="button" class="btn btn-ghost btn-block btn-sm" onclick="openModal('package', '1 Tahun')">Pilih Paket</button>
       </div>
       <div class="price-card">
         <h4>Lifetime</h4>
         <div class="amount">Rp4jt</div>
         <div class="per">Balik modal di tahun ke-4, gratis selamanya setelah itu.</div>
-        <a class="btn btn-ghost btn-block btn-sm" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20pilih%20paket%20Picdrop%20Lifetime." target="_blank" rel="noopener">Pilih Paket</a>
+        <button type="button" class="btn btn-ghost btn-block btn-sm" onclick="openModal('package', 'Lifetime')">Pilih Paket</button>
       </div>
     </div>
     <p class="pricing-note">Belum yakin? Mulai dari trial 2 hari, tanpa kartu kredit.</p>
@@ -775,7 +835,7 @@
     <h2>Siap upload lebih cepat di event berikutnya?</h2>
     <p>Coba Picdrop gratis 2 hari, atau ngobrol dulu sama admin kalau ada yang mau ditanyakan.</p>
     <div class="cta-band-btns">
-      <a class="btn btn-primary" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20fotografer%20Fo%2A%2AYu%20dan%20mau%20coba%20Picdrop%20Upload%20Assistant%20gratis%202%20hari.%20Boleh%20dibantu%3F" target="_blank" rel="noopener">Coba Gratis 2 Hari</a>
+      <button type="button" class="btn btn-primary" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
       <a class="btn btn-ghost" href="https://wa.me/6287722121222" target="_blank" rel="noopener">Chat Admin via WhatsApp</a>
     </div>
     <p class="pricing-note" style="margin-top:24px;">Sudah punya kode lisensi? Download aplikasinya:</p>
@@ -951,7 +1011,7 @@
       <div class="foot-col">
         <h5>Kontak</h5>
         <a href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20tanya-tanya%20soal%20Picdrop%20Upload%20Assistant." target="_blank" rel="noopener">WhatsApp Admin</a>
-        <a href="https://wa.me/6287722121222?text=Halo%2C%20saya%20fotografer%20Fo%2A%2AYu%20dan%20mau%20coba%20Picdrop%20Upload%20Assistant%20gratis%202%20hari.%20Boleh%20dibantu%3F" target="_blank" rel="noopener">Minta Trial 2 Hari</a>
+        <a href="javascript:void(0)" onclick="openModal('trial')">Minta Trial 2 Hari</a>
       </div>
     </div>
     <div class="foot-bottom">
@@ -983,6 +1043,86 @@
     });
   })();
 
+  // Trial / Pilih Paket modal
+  (function(){
+    var overlay = document.getElementById('modalOverlay');
+    var title = document.getElementById('modalTitle');
+    var sub = document.getElementById('modalSub');
+    var step1 = document.getElementById('modalStep1');
+    var step2 = document.getElementById('modalStep2');
+    var form = document.getElementById('modalForm');
+    var closeBtn = document.getElementById('modalClose');
+    var backBtn = document.getElementById('modalBack');
+    var currentPackage = null;
+    var currentType = 'trial';
+
+    var priceMap = { '1 Bulan': 100000, '2 Bulan': 175000, '6 Bulan': 500000, '1 Tahun': 1000000, 'Lifetime': 4000000 };
+    var driveMap = {
+      '1 Bulan': 'https://drive.google.com/drive/folders/1rkFtue02q_vOH6rkE_n3n1Nr7O33Ae9D',
+      '2 Bulan': 'https://drive.google.com/drive/folders/19NMwxu-2dASPQnZQx4OxIyqelJgdWXNR',
+      '6 Bulan': 'https://drive.google.com/drive/folders/1lFqR7y0-wa6fEZ_rVoqhX1uvFZESbVhk',
+      '1 Tahun': 'https://drive.google.com/drive/folders/1p-EiU8AjbXgVZvcHgBYyfXf9C3k5RLxC',
+      'Lifetime': 'https://drive.google.com/drive/folders/1ycewvLIFMVr-l9fiNYeqZtD0AMM-AGnX'
+    };
+
+    window.openModal = function(type, packageName){
+      currentType = type;
+      currentPackage = packageName || null;
+      step1.style.display = 'block';
+      step2.style.display = 'none';
+      if(type === 'package'){
+        title.textContent = 'Pilih Paket: ' + packageName;
+        sub.textContent = 'Isi data singkat ini dulu, langkah berikutnya info pembayaran.';
+      } else {
+        title.textContent = 'Coba Gratis 2 Hari';
+        sub.textContent = 'Isi data singkat ini, admin kami akan langsung menghubungi kamu via WhatsApp.';
+      }
+      overlay.classList.add('open');
+      document.getElementById('fNama').focus();
+    };
+    function closeModal(){
+      overlay.classList.remove('open');
+      form.reset();
+    }
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
+    backBtn.addEventListener('click', function(){ step1.style.display='block'; step2.style.display='none'; });
+
+    window.copyText = function(text){
+      navigator.clipboard.writeText(text);
+    };
+
+    var namaVal, waVal, userVal;
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      namaVal = document.getElementById('fNama').value.trim();
+      waVal = document.getElementById('fWa').value.trim();
+      userVal = document.getElementById('fUser').value.trim();
+
+      if(currentType === 'package'){
+        // go to step 2: payment info
+        document.getElementById('payPackageName').textContent = currentPackage;
+        document.getElementById('payAmount').textContent = 'Rp' + priceMap[currentPackage].toLocaleString('id-ID');
+        document.getElementById('driveBox').href = driveMap[currentPackage];
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+      } else {
+        var msg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') + '. Saya fotografer Fo**Yu dan mau coba Picdrop Upload Assistant gratis 2 hari. Boleh dibantu?';
+        window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(msg), '_blank');
+        closeModal();
+      }
+    });
+
+    document.getElementById('step2Submit').addEventListener('click', function(){
+      var msg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') +
+        '. Saya sudah transfer untuk paket Picdrop ' + currentPackage + ' sebesar ' + document.getElementById('payAmount').textContent +
+        ' dan sudah upload bukti TF ke folder Google Drive. Mohon dicek dan diproses aktivasi lisensinya.';
+      window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(msg), '_blank');
+      closeModal();
+    });
+  })();
+
   // Install tabs
   document.querySelectorAll('.tab-btn').forEach(function(btn){
     btn.addEventListener('click', function(){
@@ -993,6 +1133,66 @@
     });
   });
 </script>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+
+    <div id="modalStep1">
+      <h3 id="modalTitle">Coba Gratis 2 Hari</h3>
+      <p class="modal-sub" id="modalSub">Isi data singkat ini, admin kami akan langsung menghubungi kamu via WhatsApp.</p>
+      <form id="modalForm">
+        <div class="modal-field">
+          <label for="fNama">Nama Lengkap</label>
+          <input type="text" id="fNama" placeholder="Nama kamu" required>
+        </div>
+        <div class="modal-field">
+          <label for="fWa">Nomor WhatsApp</label>
+          <input type="tel" id="fWa" placeholder="08xxxxxxxxxx" required>
+        </div>
+        <div class="modal-field">
+          <label for="fUser">Username Fo**Yu (opsional)</label>
+          <input type="text" id="fUser" placeholder="username kamu di Fo**Yu">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="step1Submit">Lanjut ke WhatsApp</button>
+      </form>
+    </div>
+
+    <div id="modalStep2" style="display:none;">
+      <button class="modal-back" id="modalBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>Kembali</button>
+      <h3>Pembayaran Paket <span id="payPackageName"></span></h3>
+      <p class="modal-sub">Transfer sesuai nominal, upload bukti TF untuk diingat, lalu lanjutkan ke WhatsApp untuk konfirmasi.</p>
+
+      <div class="pay-summary">
+        <span>Total transfer</span>
+        <b id="payAmount">Rp0</b>
+      </div>
+
+      <div class="pay-methods">
+        <div class="pay-method">
+          <div class="pm-label">TRANSFER BANK — BCA</div>
+          <div class="pm-value"><span>8465804455 a.n. Dwi Yudianto</span><button type="button" class="pay-copy" onclick="copyText('8465804455')">Salin</button></div>
+        </div>
+      </div>
+
+      <label class="upload-box" id="uploadBox" style="display:none;">
+        <input type="file" id="fBukti" accept="image/*" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M12 4L7 9M12 4l5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
+        <p id="uploadText">Klik untuk pilih screenshot bukti transfer</p>
+        <span>JPG/PNG — untuk kamu lampirkan manual di chat WhatsApp</span>
+      </label>
+
+      <a class="upload-box" id="driveBox" href="#" target="_blank" rel="noopener" style="display:block; text-decoration:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M12 4L7 9M12 4l5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
+        <p>Buka Folder Google Drive — Upload Bukti TF</p>
+        <span>Upload screenshot bukti transfer ke folder ini, nama file: Nama_Paket</span>
+      </a>
+
+      <button type="button" class="btn btn-primary btn-block" id="step2Submit">Kirim Konfirmasi via WhatsApp</button>
+      <p class="modal-note">Setelah upload ke Drive, klik tombol di atas — admin akan cek bukti TF dan proses aktivasi lisensi.</p>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
