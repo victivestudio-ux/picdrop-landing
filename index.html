@@ -1058,13 +1058,6 @@ document.addEventListener('DOMContentLoaded', function(){
     var currentType = 'trial';
 
     var priceMap = { '1 Bulan': 100000, '2 Bulan': 175000, '6 Bulan': 500000, '1 Tahun': 1000000, 'Lifetime': 4000000 };
-    var driveMap = {
-      '1 Bulan': 'https://drive.google.com/drive/folders/1rkFtue02q_vOH6rkE_n3n1Nr7O33Ae9D',
-      '2 Bulan': 'https://drive.google.com/drive/folders/19NMwxu-2dASPQnZQx4OxIyqelJgdWXNR',
-      '6 Bulan': 'https://drive.google.com/drive/folders/1lFqR7y0-wa6fEZ_rVoqhX1uvFZESbVhk',
-      '1 Tahun': 'https://drive.google.com/drive/folders/1p-EiU8AjbXgVZvcHgBYyfXf9C3k5RLxC',
-      'Lifetime': 'https://drive.google.com/drive/folders/1ycewvLIFMVr-l9fiNYeqZtD0AMM-AGnX'
-    };
 
     window.openModal = function(type, packageName){
       currentType = type;
@@ -1084,6 +1077,10 @@ document.addEventListener('DOMContentLoaded', function(){
     function closeModal(){
       overlay.classList.remove('open');
       form.reset();
+      document.getElementById('uploadText').textContent = 'Klik untuk pilih screenshot bukti transfer';
+      buktiFileName = '';
+      buktiBase64 = '';
+      buktiMime = '';
     }
     closeBtn.addEventListener('click', closeModal);
     overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
@@ -1093,7 +1090,32 @@ document.addEventListener('DOMContentLoaded', function(){
       navigator.clipboard.writeText(text);
     };
 
-    var namaVal, waVal, userVal;
+    var namaVal, waVal, userVal, buktiFileName = '', buktiBase64 = '', buktiMime = '';
+    var UPLOAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwmGIwNxQuFiHATkNe7dhvWsbYcqO5JgcoyTGycT2ssoTBGjtnxexWno3RAjYFl4riTcA/exec';
+
+    document.getElementById('fBukti').addEventListener('change', function(e){
+      var f = e.target.files[0];
+      buktiFileName = '';
+      buktiBase64 = '';
+      buktiMime = '';
+      if(!f){
+        document.getElementById('uploadText').textContent = 'Klik untuk pilih screenshot bukti transfer';
+        return;
+      }
+      document.getElementById('uploadText').textContent = 'Membaca file...';
+      var reader = new FileReader();
+      reader.onload = function(ev){
+        var result = ev.target.result; // "data:image/jpeg;base64,...."
+        buktiBase64 = result.split(',')[1] || '';
+        buktiFileName = f.name;
+        buktiMime = f.type || 'image/jpeg';
+        document.getElementById('uploadText').textContent = 'Terpilih: ' + f.name;
+      };
+      reader.onerror = function(){
+        document.getElementById('uploadText').textContent = 'Gagal membaca file, coba pilih lagi';
+      };
+      reader.readAsDataURL(f);
+    });
 
     form.addEventListener('submit', function(e){
       e.preventDefault();
@@ -1105,7 +1127,6 @@ document.addEventListener('DOMContentLoaded', function(){
         // go to step 2: payment info
         document.getElementById('payPackageName').textContent = currentPackage;
         document.getElementById('payAmount').textContent = 'Rp' + priceMap[currentPackage].toLocaleString('id-ID');
-        document.getElementById('driveBox').href = driveMap[currentPackage];
         step1.style.display = 'none';
         step2.style.display = 'block';
       } else {
@@ -1116,11 +1137,52 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     document.getElementById('step2Submit').addEventListener('click', function(){
-      var msg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') +
-        '. Saya sudah transfer untuk paket Picdrop ' + currentPackage + ' sebesar ' + document.getElementById('payAmount').textContent +
-        ' dan sudah upload bukti TF ke folder Google Drive. Mohon dicek dan diproses aktivasi lisensinya.';
-      window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(msg), '_blank');
-      closeModal();
+      var btn = this;
+      var amountText = document.getElementById('payAmount').textContent;
+
+      function sendWa(fileUrl){
+        var msg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') +
+          '. Saya sudah transfer untuk paket Picdrop ' + currentPackage + ' sebesar ' + amountText +
+          (fileUrl ? '. Bukti transfer: ' + fileUrl : (buktiFileName ? ' (bukti TF: ' + buktiFileName + ', akan saya lampirkan di chat ini)' : '')) +
+          '. Mohon dicek dan diproses aktivasi lisensinya.';
+        window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(msg), '_blank');
+        closeModal();
+        btn.disabled = false;
+        btn.textContent = 'Kirim Konfirmasi via WhatsApp';
+      }
+
+      if(!buktiBase64){
+        // no file selected — proceed without upload
+        sendWa(null);
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Mengupload bukti TF...';
+
+      fetch(UPLOAD_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          packageName: currentPackage,
+          fileName: buktiFileName,
+          mimeType: buktiMime,
+          fileData: buktiBase64
+        })
+      })
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          if(data && data.ok){
+            sendWa(data.fileUrl);
+          } else {
+            alert('Upload bukti TF gagal: ' + (data && data.error ? data.error : 'error tidak diketahui') + '. Lanjut ke WhatsApp saja dulu.');
+            sendWa(null);
+          }
+        })
+        .catch(function(){
+          alert('Gagal menghubungi server upload. Lanjut ke WhatsApp, lampirkan bukti TF manual ya.');
+          sendWa(null);
+        });
     });
   })();
 
@@ -1177,21 +1239,15 @@ document.addEventListener('DOMContentLoaded', function(){
         </div>
       </div>
 
-      <label class="upload-box" id="uploadBox" style="display:none;">
+      <label class="upload-box" id="uploadBox">
         <input type="file" id="fBukti" accept="image/*" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M12 4L7 9M12 4l5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
         <p id="uploadText">Klik untuk pilih screenshot bukti transfer</p>
         <span>JPG/PNG — untuk kamu lampirkan manual di chat WhatsApp</span>
       </label>
 
-      <a class="upload-box" id="driveBox" href="#" target="_blank" rel="noopener" style="display:block; text-decoration:none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M12 4L7 9M12 4l5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
-        <p>Buka Folder Google Drive — Upload Bukti TF</p>
-        <span>Upload screenshot bukti transfer ke folder ini, nama file: Nama_Paket</span>
-      </a>
-
       <button type="button" class="btn btn-primary btn-block" id="step2Submit">Kirim Konfirmasi via WhatsApp</button>
-      <p class="modal-note">Setelah upload ke Drive, klik tombol di atas — admin akan cek bukti TF dan proses aktivasi lisensi.</p>
+      <p class="modal-note">Setelah kirim, lampirkan screenshot bukti transfer di chat WhatsApp yang terbuka — admin akan cek dan proses aktivasi lisensi.</p>
     </div>
   </div>
 </div>
