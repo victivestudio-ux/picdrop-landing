@@ -1021,6 +1021,7 @@
 </footer>
 
 <script>
+document.addEventListener('DOMContentLoaded', function(){
   // Live-looking uploaded counter
   (function(){
     var el = document.getElementById('counter');
@@ -1132,6 +1133,7 @@
       document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
     });
   });
+});
 </script>
 
 <div class="modal-overlay" id="modalOverlay">
