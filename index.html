@@ -1062,6 +1062,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
     var priceMap = { '1 Bulan': 100000, '2 Bulan': 175000, '6 Bulan': 500000, '1 Tahun': 1000000, 'Lifetime': 4000000 };
     var PAYMENT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbygGQ-Z-_7zw6nMrvAZ51i9YNy7IIn77Qkk-z-H9gpGpNWQegLQMYi3XB66O7Jis7p3pg/exec';
+    // SEMENTARA MATI — Midtrans masih mode Sandbox, Production lagi proses aktivasi.
+    // Ganti ke true begitu Production Midtrans aktif dan key production sudah dipasang.
+    var AUTO_PAYMENT_ENABLED = false;
 
     window.openModal = function(type, packageName){
       currentType = type;
@@ -1103,10 +1106,17 @@ document.addEventListener('DOMContentLoaded', function(){
       emailVal = document.getElementById('fEmail').value.trim();
 
       if(currentType === 'package'){
-        document.getElementById('payPackageName').textContent = currentPackage;
-        document.getElementById('payAmount').textContent = 'Rp' + priceMap[currentPackage].toLocaleString('id-ID');
-        step1.style.display = 'none';
-        step2.style.display = 'block';
+        if(AUTO_PAYMENT_ENABLED){
+          document.getElementById('payPackageName').textContent = currentPackage;
+          document.getElementById('payAmount').textContent = 'Rp' + priceMap[currentPackage].toLocaleString('id-ID');
+          step1.style.display = 'none';
+          step2.style.display = 'block';
+        } else {
+          var pkgMsg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') +
+            '. Saya mau pilih paket Picdrop ' + currentPackage + ' (Rp' + priceMap[currentPackage].toLocaleString('id-ID') + '). Boleh dibantu proses pembayarannya?';
+          window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(pkgMsg), '_blank');
+          closeModal();
+        }
       } else {
         var msg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') + '. Saya fotografer Fo**Yu dan mau coba Picdrop Upload Assistant gratis 2 hari. Boleh dibantu?';
         window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(msg), '_blank');
