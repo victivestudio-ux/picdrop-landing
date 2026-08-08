@@ -1051,22 +1051,28 @@ document.addEventListener('DOMContentLoaded', function(){
     var sub = document.getElementById('modalSub');
     var step1 = document.getElementById('modalStep1');
     var step2 = document.getElementById('modalStep2');
+    var step3 = document.getElementById('modalStep3');
     var form = document.getElementById('modalForm');
     var closeBtn = document.getElementById('modalClose');
     var backBtn = document.getElementById('modalBack');
     var currentPackage = null;
     var currentType = 'trial';
+    var pollTimer = null;
+    var currentOrderId = null;
 
     var priceMap = { '1 Bulan': 100000, '2 Bulan': 175000, '6 Bulan': 500000, '1 Tahun': 1000000, 'Lifetime': 4000000 };
+    var PAYMENT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbygGQ-Z-_7zw6nMrvAZ51i9YNy7IIn77Qkk-z-H9gpGpNWQegLQMYi3XB66O7Jis7p3pg/exec';
 
     window.openModal = function(type, packageName){
       currentType = type;
       currentPackage = packageName || null;
       step1.style.display = 'block';
       step2.style.display = 'none';
+      step3.style.display = 'none';
+      document.getElementById('emailFieldWrap').style.display = (type === 'package') ? 'block' : 'none';
       if(type === 'package'){
         title.textContent = 'Pilih Paket: ' + packageName;
-        sub.textContent = 'Isi data singkat ini dulu, langkah berikutnya info pembayaran.';
+        sub.textContent = 'Isi data singkat ini dulu, langkah berikutnya pembayaran.';
       } else {
         title.textContent = 'Coba Gratis 2 Hari';
         sub.textContent = 'Isi data singkat ini, admin kami akan langsung menghubungi kamu via WhatsApp.';
@@ -1077,10 +1083,7 @@ document.addEventListener('DOMContentLoaded', function(){
     function closeModal(){
       overlay.classList.remove('open');
       form.reset();
-      document.getElementById('uploadText').textContent = 'Klik untuk pilih screenshot bukti transfer';
-      buktiFileName = '';
-      buktiBase64 = '';
-      buktiMime = '';
+      if(pollTimer){ clearInterval(pollTimer); pollTimer = null; }
     }
     closeBtn.addEventListener('click', closeModal);
     overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
@@ -1090,41 +1093,16 @@ document.addEventListener('DOMContentLoaded', function(){
       navigator.clipboard.writeText(text);
     };
 
-    var namaVal, waVal, userVal, buktiFileName = '', buktiBase64 = '', buktiMime = '';
-    var UPLOAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwmGIwNxQuFiHATkNe7dhvWsbYcqO5JgcoyTGycT2ssoTBGjtnxexWno3RAjYFl4riTcA/exec';
-
-    document.getElementById('fBukti').addEventListener('change', function(e){
-      var f = e.target.files[0];
-      buktiFileName = '';
-      buktiBase64 = '';
-      buktiMime = '';
-      if(!f){
-        document.getElementById('uploadText').textContent = 'Klik untuk pilih screenshot bukti transfer';
-        return;
-      }
-      document.getElementById('uploadText').textContent = 'Membaca file...';
-      var reader = new FileReader();
-      reader.onload = function(ev){
-        var result = ev.target.result; // "data:image/jpeg;base64,...."
-        buktiBase64 = result.split(',')[1] || '';
-        buktiFileName = f.name;
-        buktiMime = f.type || 'image/jpeg';
-        document.getElementById('uploadText').textContent = 'Terpilih: ' + f.name;
-      };
-      reader.onerror = function(){
-        document.getElementById('uploadText').textContent = 'Gagal membaca file, coba pilih lagi';
-      };
-      reader.readAsDataURL(f);
-    });
+    var namaVal, waVal, userVal, emailVal;
 
     form.addEventListener('submit', function(e){
       e.preventDefault();
       namaVal = document.getElementById('fNama').value.trim();
       waVal = document.getElementById('fWa').value.trim();
       userVal = document.getElementById('fUser').value.trim();
+      emailVal = document.getElementById('fEmail').value.trim();
 
       if(currentType === 'package'){
-        // go to step 2: payment info
         document.getElementById('payPackageName').textContent = currentPackage;
         document.getElementById('payAmount').textContent = 'Rp' + priceMap[currentPackage].toLocaleString('id-ID');
         step1.style.display = 'none';
@@ -1138,52 +1116,75 @@ document.addEventListener('DOMContentLoaded', function(){
 
     document.getElementById('step2Submit').addEventListener('click', function(){
       var btn = this;
-      var amountText = document.getElementById('payAmount').textContent;
-
-      function sendWa(fileUrl){
-        var msg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') +
-          '. Saya sudah transfer untuk paket Picdrop ' + currentPackage + ' sebesar ' + amountText +
-          (fileUrl ? '. Bukti transfer: ' + fileUrl : (buktiFileName ? ' (bukti TF: ' + buktiFileName + ', akan saya lampirkan di chat ini)' : '')) +
-          '. Mohon dicek dan diproses aktivasi lisensinya.';
-        window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(msg), '_blank');
-        closeModal();
-        btn.disabled = false;
-        btn.textContent = 'Kirim Konfirmasi via WhatsApp';
-      }
-
-      if(!buktiBase64){
-        // no file selected — proceed without upload
-        sendWa(null);
-        return;
-      }
-
       btn.disabled = true;
-      btn.textContent = 'Mengupload bukti TF...';
+      btn.textContent = 'Menyiapkan pembayaran...';
+      document.getElementById('step2Note').textContent = '';
 
-      fetch(UPLOAD_ENDPOINT, {
+      fetch(PAYMENT_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
+          action: 'createTransaction',
           packageName: currentPackage,
-          fileName: buktiFileName,
-          mimeType: buktiMime,
-          fileData: buktiBase64
+          nama: namaVal,
+          wa: waVal,
+          email: emailVal
         })
       })
         .then(function(res){ return res.json(); })
         .then(function(data){
-          if(data && data.ok){
-            sendWa(data.fileUrl);
-          } else {
-            alert('Upload bukti TF gagal: ' + (data && data.error ? data.error : 'error tidak diketahui') + '. Lanjut ke WhatsApp saja dulu.');
-            sendWa(null);
+          btn.disabled = false;
+          btn.textContent = 'Bayar Sekarang';
+          if(!data || !data.ok){
+            document.getElementById('step2Note').textContent = 'Gagal menyiapkan pembayaran: ' + (data && data.error ? data.error : 'error tidak diketahui');
+            return;
           }
+          currentOrderId = data.orderId;
+          window.snap.pay(data.snapToken, {
+            onSuccess: function(){ showWaitingAndPoll(); },
+            onPending: function(){ showWaitingAndPoll(); },
+            onError: function(){ document.getElementById('step2Note').textContent = 'Pembayaran gagal, coba lagi.'; },
+            onClose: function(){ /* user closed popup without finishing — stay on step2 */ }
+          });
         })
         .catch(function(){
-          alert('Gagal menghubungi server upload. Lanjut ke WhatsApp, lampirkan bukti TF manual ya.');
-          sendWa(null);
+          btn.disabled = false;
+          btn.textContent = 'Bayar Sekarang';
+          document.getElementById('step2Note').textContent = 'Gagal menghubungi server pembayaran. Coba lagi.';
         });
     });
+
+    function showWaitingAndPoll(){
+      step2.style.display = 'none';
+      step3.style.display = 'block';
+      document.getElementById('step3Waiting').style.display = 'block';
+      document.getElementById('step3Success').style.display = 'none';
+
+      var attempts = 0;
+      pollTimer = setInterval(function(){
+        attempts++;
+        fetch(PAYMENT_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'checkStatus', orderId: currentOrderId })
+        })
+          .then(function(res){ return res.json(); })
+          .then(function(data){
+            if(data && data.ok && data.status === 'paid' && data.licenseKey){
+              clearInterval(pollTimer);
+              pollTimer = null;
+              document.getElementById('step3Waiting').style.display = 'none';
+              document.getElementById('step3Success').style.display = 'block';
+              document.getElementById('licenseKeyDisplay').textContent = data.licenseKey;
+              document.getElementById('licenseCopyBtn').onclick = function(){ copyText(data.licenseKey); };
+            }
+          })
+          .catch(function(){});
+        if(attempts > 60){ clearInterval(pollTimer); pollTimer = null; } // stop after ~5 minutes
+      }, 5000);
+    }
+
+    document.getElementById('step3CloseBtn').addEventListener('click', closeModal);
   })();
 
   // Install tabs
@@ -1197,6 +1198,7 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 });
 </script>
+
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-box">
@@ -1218,6 +1220,10 @@ document.addEventListener('DOMContentLoaded', function(){
           <label for="fUser">Username Fo**Yu (opsional)</label>
           <input type="text" id="fUser" placeholder="username kamu di Fo**Yu">
         </div>
+        <div class="modal-field" id="emailFieldWrap">
+          <label for="fEmail">Email <span style="color:var(--muted-2); font-weight:400;">(buat kirim kode lisensi)</span></label>
+          <input type="email" id="fEmail" placeholder="nama@email.com">
+        </div>
         <button type="submit" class="btn btn-primary btn-block" id="step1Submit">Lanjut ke WhatsApp</button>
       </form>
     </div>
@@ -1225,32 +1231,44 @@ document.addEventListener('DOMContentLoaded', function(){
     <div id="modalStep2" style="display:none;">
       <button class="modal-back" id="modalBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>Kembali</button>
       <h3>Pembayaran Paket <span id="payPackageName"></span></h3>
-      <p class="modal-sub">Transfer sesuai nominal, upload bukti TF untuk diingat, lalu lanjutkan ke WhatsApp untuk konfirmasi.</p>
+      <p class="modal-sub">Klik tombol di bawah untuk bayar — bisa QRIS, transfer VA, kartu, atau e-wallet. Kode lisensi otomatis muncul begitu pembayaran terkonfirmasi.</p>
 
       <div class="pay-summary">
-        <span>Total transfer</span>
+        <span>Total pembayaran</span>
         <b id="payAmount">Rp0</b>
       </div>
 
-      <div class="pay-methods">
-        <div class="pay-method">
-          <div class="pm-label">TRANSFER BANK — BCA a.n. Dwi Yudianto</div>
-          <div class="pm-value"><span>8465804455</span><button type="button" class="pay-copy" onclick="copyText('8465804455')">Salin</button></div>
-        </div>
+      <button type="button" class="btn btn-primary btn-block" id="step2Submit">Bayar Sekarang</button>
+      <p class="modal-note" id="step2Note">Pembayaran diproses aman lewat Midtrans.</p>
+    </div>
+
+    <div id="modalStep3" style="display:none; text-align:center;">
+      <div id="step3Waiting">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:36px; height:36px; color:var(--accent-2); margin:0 auto 16px; animation:spin 1.2s linear infinite;"><path d="M4 12a8 8 0 0 1 14-5M20 12a8 8 0 0 1-14 5M20 4v5h-5M4 20v-5h5"/></svg>
+        <h3>Menunggu konfirmasi pembayaran...</h3>
+        <p class="modal-sub">Jangan tutup halaman ini. Biasanya cuma beberapa detik.</p>
       </div>
-
-      <label class="upload-box" id="uploadBox">
-        <input type="file" id="fBukti" accept="image/*" style="display:none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M12 4L7 9M12 4l5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
-        <p id="uploadText">Klik untuk pilih screenshot bukti transfer</p>
-        <span>JPG/PNG — untuk kamu lampirkan manual di chat WhatsApp</span>
-      </label>
-
-      <button type="button" class="btn btn-primary btn-block" id="step2Submit">Kirim Konfirmasi via WhatsApp</button>
-      <p class="modal-note">Setelah kirim, lampirkan screenshot bukti transfer di chat WhatsApp yang terbuka — admin akan cek dan proses aktivasi lisensi.</p>
+      <div id="step3Success" style="display:none;">
+        <div style="width:48px; height:48px; margin:0 auto 16px; border-radius:50%; background:rgba(34,211,184,.15); display:flex; align-items:center; justify-content:center;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--good)" stroke-width="3" style="width:24px; height:24px;"><path d="M4 12l5 5L20 6"/></svg>
+        </div>
+        <h3>Pembayaran berhasil!</h3>
+        <p class="modal-sub">Ini kode lisensi kamu — sudah dikirim ke email juga kalau tadi diisi.</p>
+        <div class="pay-summary" style="justify-content:center; gap:12px;">
+          <b id="licenseKeyDisplay" style="font-size:17px; letter-spacing:0.5px;">—</b>
+          <button type="button" class="pay-copy" id="licenseCopyBtn">Salin</button>
+        </div>
+        <p class="modal-note">Buka aplikasi Picdrop, masukkan kode ini untuk aktivasi.</p>
+        <button type="button" class="btn btn-primary btn-block" id="step3CloseBtn" style="margin-top:8px;">Selesai</button>
+      </div>
     </div>
   </div>
 </div>
+
+<style>
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+</style>
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-NgLH9RKqlweMGf5n"></script>
 
 </body>
 </html>
