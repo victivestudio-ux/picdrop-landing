@@ -1131,7 +1131,14 @@ document.addEventListener('DOMContentLoaded', function(){
           email: emailVal
         })
       })
-        .then(function(res){ return res.json(); })
+        .then(function(res){
+          if(!res.ok){
+            return res.text().then(function(txt){
+              throw new Error('HTTP ' + res.status + ': ' + txt.substring(0, 300));
+            });
+          }
+          return res.json();
+        })
         .then(function(data){
           btn.disabled = false;
           btn.textContent = 'Bayar Sekarang';
@@ -1147,10 +1154,10 @@ document.addEventListener('DOMContentLoaded', function(){
             onClose: function(){ /* user closed popup without finishing — stay on step2 */ }
           });
         })
-        .catch(function(){
+        .catch(function(err){
           btn.disabled = false;
           btn.textContent = 'Bayar Sekarang';
-          document.getElementById('step2Note').textContent = 'Gagal menghubungi server pembayaran. Coba lagi.';
+          document.getElementById('step2Note').textContent = 'Error: ' + (err && err.message ? err.message : String(err));
         });
     });
 
