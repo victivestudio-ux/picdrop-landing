@@ -102,8 +102,24 @@
     .nav-cta .btn-ghost{display:none;}
   }
   @media (max-width:520px){
-    .nav-cta .btn-primary{padding:10px 14px; font-size:13px;}
+    .nav-cta .btn-primary{padding:12px 20px; font-size:14px;}
     .brand-text span{display:none;}
+  }
+
+  /* ---------- Floating Chat Admin button ---------- */
+  .floating-chat{
+    position:fixed; right:22px; bottom:22px; z-index:60;
+    width:56px; height:56px; border-radius:50%;
+    background:linear-gradient(180deg, #4aacff, #2f8fe6);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 30px -6px rgba(58,160,255,.55);
+    transition:transform .15s ease;
+  }
+  .floating-chat:hover{transform:scale(1.06);}
+  .floating-chat svg{width:26px; height:26px; color:#04101f;}
+  @media (max-width:520px){
+    .floating-chat{width:50px; height:50px; right:16px; bottom:16px;}
+    .floating-chat svg{width:22px; height:22px;}
   }
 
   /* ---------- Hero ---------- */
@@ -476,8 +492,7 @@
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-ghost btn-sm" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20tanya-tanya%20soal%20Picdrop%20Upload%20Assistant." target="_blank" rel="noopener">Chat Admin</a>
-      <button type="button" class="btn btn-primary btn-sm" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
+      <button type="button" class="btn btn-primary" style="padding:14px 28px; font-size:15.5px;" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
       <button class="nav-toggle" id="navToggle" aria-label="Buka menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
@@ -1286,6 +1301,10 @@ document.addEventListener('DOMContentLoaded', function(){
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 </style>
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-NgLH9RKqlweMGf5n"></script>
+
+<a class="floating-chat" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20tanya-tanya%20soal%20Picdrop%20Upload%20Assistant." target="_blank" rel="noopener" aria-label="Chat Admin via WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l5.07-1.33A9.96 9.96 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm4.86 14.14c-.2.57-1.18 1.1-1.65 1.16-.42.06-.95.09-1.53-.1-.35-.11-.8-.25-1.38-.5-2.43-1.05-4.02-3.5-4.14-3.66-.12-.16-.99-1.31-.99-2.5s.62-1.77.84-2.01c.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.55.42.2.49.68 1.68.74 1.8.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.32-.36.43-.12.12-.24.25-.1.49.14.24.61 1.01 1.31 1.63.9.8 1.66 1.05 1.9 1.17.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.14 1.15z"/></svg>
+</a>
 
 </body>
 </html>
