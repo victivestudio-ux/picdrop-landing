@@ -102,24 +102,8 @@
     .nav-cta .btn-ghost{display:none;}
   }
   @media (max-width:520px){
-    .nav-cta .btn-primary{padding:12px 20px; font-size:14px;}
+    .nav-cta .btn-primary{padding:10px 14px; font-size:13px;}
     .brand-text span{display:none;}
-  }
-
-  /* ---------- Floating Chat Admin button ---------- */
-  .floating-chat{
-    position:fixed; right:22px; bottom:22px; z-index:60;
-    width:56px; height:56px; border-radius:50%;
-    background:linear-gradient(180deg, #4aacff, #2f8fe6);
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 10px 30px -6px rgba(58,160,255,.55);
-    transition:transform .15s ease;
-  }
-  .floating-chat:hover{transform:scale(1.06);}
-  .floating-chat svg{width:26px; height:26px; color:#04101f;}
-  @media (max-width:520px){
-    .floating-chat{width:50px; height:50px; right:16px; bottom:16px;}
-    .floating-chat svg{width:22px; height:22px;}
   }
 
   /* ---------- Hero ---------- */
@@ -492,7 +476,8 @@
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-cta">
-      <button type="button" class="btn btn-primary" style="padding:14px 28px; font-size:15.5px;" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
+      <a class="btn btn-ghost btn-sm" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20tanya-tanya%20soal%20Picdrop%20Upload%20Assistant." target="_blank" rel="noopener">Chat Admin</a>
+      <button type="button" class="btn btn-primary btn-sm" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
       <button class="nav-toggle" id="navToggle" aria-label="Buka menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
@@ -516,8 +501,9 @@
     <div class="eyebrow">Aplikasi desktop untuk fotografer Fo**Yu</div>
     <h1>Upload ribuan foto ke Fo**Yu.<br>Bukan <em>satu-satu</em>.</h1>
     <p class="lead">Picdrop memindai folder event kamu, mengompres, lalu mengunggah paralel ke FotoTree yang benar — otomatis, anti-duplikat, dan bisa dipantau real-time dari satu dashboard.</p>
-    <div class="hero-ctas" style="justify-content:center;">
-      <button type="button" class="btn btn-primary" style="padding:18px 40px; font-size:17px;" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
+    <div class="hero-ctas">
+      <button type="button" class="btn btn-primary" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
+      <a class="btn btn-ghost" href="https://wa.me/6287722121222" target="_blank" rel="noopener">Chat Admin via WhatsApp</a>
     </div>
     <div class="trust-row">
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>Lisensi terkunci per perangkat</span>
@@ -526,17 +512,17 @@
     </div>
 
     <div class="download-row">
-      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.74/Picdrop-Upload-Assistant-Setup-0.1.74.exe" target="_blank" rel="noopener">
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.80/Picdrop-Upload-Assistant-Setup-0.1.80.exe" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10 4.4v7.1H3V5.5zm8-1.3l9-1.2v8.6h-9V4.2zM3 12.5h7v7.1L3 18.5v-6zm8 0h9v8.7l-9-1.2v-7.5z"/></svg>
-        <span class="dl-text"><b>Download untuk Windows</b><span>v0.1.74 · .exe</span></span>
+        <span class="dl-text"><b>Download untuk Windows</b><span>v0.1.80 · .exe</span></span>
       </a>
-      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.74/Picdrop-Upload-Assistant-0.1.74.dmg" target="_blank" rel="noopener">
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.80/Picdrop-Upload-Assistant-0.1.80.dmg" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2c.1 1.1-.3 2.2-1 3-.8.9-2 1.6-3.2 1.5-.1-1.1.4-2.3 1.1-3C14.2 2.6 15.4 2 16.5 2zM20.3 17.4c-.5 1.1-.8 1.6-1.4 2.6-.9 1.4-2.2 3.1-3.8 3.1-1.4 0-1.8-.9-3.7-.9s-2.3.9-3.7.9c-1.6 0-2.8-1.6-3.7-3-2.5-3.9-2.8-8.5-1.2-10.9 1.1-1.7 2.9-2.7 4.5-2.7 1.7 0 2.8 1 4.2 1 1.4 0 2.2-1 4.2-1 1.5 0 3 .8 4.1 2.2-3.6 2-3 7.1.5 8.7z"/></svg>
-        <span class="dl-text"><b>Mac Intel</b><span>v0.1.74 · .dmg</span></span>
+        <span class="dl-text"><b>Mac Intel</b><span>v0.1.80 · .dmg</span></span>
       </a>
-      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.74/Picdrop-Upload-Assistant-0.1.74-arm64.dmg" target="_blank" rel="noopener">
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.80/Picdrop-Upload-Assistant-0.1.80-arm64.dmg" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2c.1 1.1-.3 2.2-1 3-.8.9-2 1.6-3.2 1.5-.1-1.1.4-2.3 1.1-3C14.2 2.6 15.4 2 16.5 2zM20.3 17.4c-.5 1.1-.8 1.6-1.4 2.6-.9 1.4-2.2 3.1-3.8 3.1-1.4 0-1.8-.9-3.7-.9s-2.3.9-3.7.9c-1.6 0-2.8-1.6-3.7-3-2.5-3.9-2.8-8.5-1.2-10.9 1.1-1.7 2.9-2.7 4.5-2.7 1.7 0 2.8 1 4.2 1 1.4 0 2.2-1 4.2-1 1.5 0 3 .8 4.1 2.2-3.6 2-3 7.1.5 8.7z"/></svg>
-        <span class="dl-text"><b>Mac Apple Silicon</b><span>v0.1.74 · .dmg</span></span>
+        <span class="dl-text"><b>Mac Apple Silicon</b><span>v0.1.80 · .dmg</span></span>
       </a>
     </div>
   </div>
@@ -849,21 +835,22 @@
     <h2>Siap upload lebih cepat di event berikutnya?</h2>
     <p>Coba Picdrop gratis 2 hari, atau ngobrol dulu sama admin kalau ada yang mau ditanyakan.</p>
     <div class="cta-band-btns">
-      <button type="button" class="btn btn-primary" style="padding:18px 40px; font-size:17px;" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
+      <button type="button" class="btn btn-primary" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
+      <a class="btn btn-ghost" href="https://wa.me/6287722121222" target="_blank" rel="noopener">Chat Admin via WhatsApp</a>
     </div>
     <p class="pricing-note" style="margin-top:24px;">Sudah punya kode lisensi? Download aplikasinya:</p>
     <div class="cta-band-downloads">
-      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.74/Picdrop-Upload-Assistant-Setup-0.1.74.exe" target="_blank" rel="noopener">
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.80/Picdrop-Upload-Assistant-Setup-0.1.80.exe" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10 4.4v7.1H3V5.5zm8-1.3l9-1.2v8.6h-9V4.2zM3 12.5h7v7.1L3 18.5v-6zm8 0h9v8.7l-9-1.2v-7.5z"/></svg>
-        <span class="dl-text"><b>Windows</b><span>v0.1.74 · .exe</span></span>
+        <span class="dl-text"><b>Windows</b><span>v0.1.80 · .exe</span></span>
       </a>
-      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.74/Picdrop-Upload-Assistant-0.1.74.dmg" target="_blank" rel="noopener">
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.80/Picdrop-Upload-Assistant-0.1.80.dmg" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2c.1 1.1-.3 2.2-1 3-.8.9-2 1.6-3.2 1.5-.1-1.1.4-2.3 1.1-3C14.2 2.6 15.4 2 16.5 2zM20.3 17.4c-.5 1.1-.8 1.6-1.4 2.6-.9 1.4-2.2 3.1-3.8 3.1-1.4 0-1.8-.9-3.7-.9s-2.3.9-3.7.9c-1.6 0-2.8-1.6-3.7-3-2.5-3.9-2.8-8.5-1.2-10.9 1.1-1.7 2.9-2.7 4.5-2.7 1.7 0 2.8 1 4.2 1 1.4 0 2.2-1 4.2-1 1.5 0 3 .8 4.1 2.2-3.6 2-3 7.1.5 8.7z"/></svg>
-        <span class="dl-text"><b>Mac Intel</b><span>v0.1.74 · .dmg</span></span>
+        <span class="dl-text"><b>Mac Intel</b><span>v0.1.80 · .dmg</span></span>
       </a>
-      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.74/Picdrop-Upload-Assistant-0.1.74-arm64.dmg" target="_blank" rel="noopener">
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.80/Picdrop-Upload-Assistant-0.1.80-arm64.dmg" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2c.1 1.1-.3 2.2-1 3-.8.9-2 1.6-3.2 1.5-.1-1.1.4-2.3 1.1-3C14.2 2.6 15.4 2 16.5 2zM20.3 17.4c-.5 1.1-.8 1.6-1.4 2.6-.9 1.4-2.2 3.1-3.8 3.1-1.4 0-1.8-.9-3.7-.9s-2.3.9-3.7.9c-1.6 0-2.8-1.6-3.7-3-2.5-3.9-2.8-8.5-1.2-10.9 1.1-1.7 2.9-2.7 4.5-2.7 1.7 0 2.8 1 4.2 1 1.4 0 2.2-1 4.2-1 1.5 0 3 .8 4.1 2.2-3.6 2-3 7.1.5 8.7z"/></svg>
-        <span class="dl-text"><b>Mac Apple Silicon</b><span>v0.1.74 · .dmg</span></span>
+        <span class="dl-text"><b>Mac Apple Silicon</b><span>v0.1.80 · .dmg</span></span>
       </a>
     </div>
   </div>
@@ -1064,31 +1051,22 @@ document.addEventListener('DOMContentLoaded', function(){
     var sub = document.getElementById('modalSub');
     var step1 = document.getElementById('modalStep1');
     var step2 = document.getElementById('modalStep2');
-    var step3 = document.getElementById('modalStep3');
     var form = document.getElementById('modalForm');
     var closeBtn = document.getElementById('modalClose');
     var backBtn = document.getElementById('modalBack');
     var currentPackage = null;
     var currentType = 'trial';
-    var pollTimer = null;
-    var currentOrderId = null;
 
     var priceMap = { '1 Bulan': 100000, '2 Bulan': 175000, '6 Bulan': 500000, '1 Tahun': 1000000, 'Lifetime': 4000000 };
-    var PAYMENT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbygGQ-Z-_7zw6nMrvAZ51i9YNy7IIn77Qkk-z-H9gpGpNWQegLQMYi3XB66O7Jis7p3pg/exec';
-    // SEMENTARA MATI — Midtrans masih mode Sandbox, Production lagi proses aktivasi.
-    // Ganti ke true begitu Production Midtrans aktif dan key production sudah dipasang.
-    var AUTO_PAYMENT_ENABLED = false;
 
     window.openModal = function(type, packageName){
       currentType = type;
       currentPackage = packageName || null;
       step1.style.display = 'block';
       step2.style.display = 'none';
-      step3.style.display = 'none';
-      document.getElementById('emailFieldWrap').style.display = (type === 'package') ? 'block' : 'none';
       if(type === 'package'){
         title.textContent = 'Pilih Paket: ' + packageName;
-        sub.textContent = 'Isi data singkat ini dulu, langkah berikutnya pembayaran.';
+        sub.textContent = 'Isi data singkat ini dulu, langkah berikutnya info pembayaran.';
       } else {
         title.textContent = 'Coba Gratis 2 Hari';
         sub.textContent = 'Isi data singkat ini, admin kami akan langsung menghubungi kamu via WhatsApp.';
@@ -1099,7 +1077,10 @@ document.addEventListener('DOMContentLoaded', function(){
     function closeModal(){
       overlay.classList.remove('open');
       form.reset();
-      if(pollTimer){ clearInterval(pollTimer); pollTimer = null; }
+      document.getElementById('uploadText').textContent = 'Klik untuk pilih screenshot bukti transfer';
+      buktiFileName = '';
+      buktiBase64 = '';
+      buktiMime = '';
     }
     closeBtn.addEventListener('click', closeModal);
     overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
@@ -1109,27 +1090,45 @@ document.addEventListener('DOMContentLoaded', function(){
       navigator.clipboard.writeText(text);
     };
 
-    var namaVal, waVal, userVal, emailVal;
+    var namaVal, waVal, userVal, buktiFileName = '', buktiBase64 = '', buktiMime = '';
+    var UPLOAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwmGIwNxQuFiHATkNe7dhvWsbYcqO5JgcoyTGycT2ssoTBGjtnxexWno3RAjYFl4riTcA/exec';
+
+    document.getElementById('fBukti').addEventListener('change', function(e){
+      var f = e.target.files[0];
+      buktiFileName = '';
+      buktiBase64 = '';
+      buktiMime = '';
+      if(!f){
+        document.getElementById('uploadText').textContent = 'Klik untuk pilih screenshot bukti transfer';
+        return;
+      }
+      document.getElementById('uploadText').textContent = 'Membaca file...';
+      var reader = new FileReader();
+      reader.onload = function(ev){
+        var result = ev.target.result; // "data:image/jpeg;base64,...."
+        buktiBase64 = result.split(',')[1] || '';
+        buktiFileName = f.name;
+        buktiMime = f.type || 'image/jpeg';
+        document.getElementById('uploadText').textContent = 'Terpilih: ' + f.name;
+      };
+      reader.onerror = function(){
+        document.getElementById('uploadText').textContent = 'Gagal membaca file, coba pilih lagi';
+      };
+      reader.readAsDataURL(f);
+    });
 
     form.addEventListener('submit', function(e){
       e.preventDefault();
       namaVal = document.getElementById('fNama').value.trim();
       waVal = document.getElementById('fWa').value.trim();
       userVal = document.getElementById('fUser').value.trim();
-      emailVal = document.getElementById('fEmail').value.trim();
 
       if(currentType === 'package'){
-        if(AUTO_PAYMENT_ENABLED){
-          document.getElementById('payPackageName').textContent = currentPackage;
-          document.getElementById('payAmount').textContent = 'Rp' + priceMap[currentPackage].toLocaleString('id-ID');
-          step1.style.display = 'none';
-          step2.style.display = 'block';
-        } else {
-          var pkgMsg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') +
-            '. Saya mau pilih paket Picdrop ' + currentPackage + ' (Rp' + priceMap[currentPackage].toLocaleString('id-ID') + '). Boleh dibantu proses pembayarannya?';
-          window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(pkgMsg), '_blank');
-          closeModal();
-        }
+        // go to step 2: payment info
+        document.getElementById('payPackageName').textContent = currentPackage;
+        document.getElementById('payAmount').textContent = 'Rp' + priceMap[currentPackage].toLocaleString('id-ID');
+        step1.style.display = 'none';
+        step2.style.display = 'block';
       } else {
         var msg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') + '. Saya fotografer Fo**Yu dan mau coba Picdrop Upload Assistant gratis 2 hari. Boleh dibantu?';
         window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(msg), '_blank');
@@ -1139,82 +1138,52 @@ document.addEventListener('DOMContentLoaded', function(){
 
     document.getElementById('step2Submit').addEventListener('click', function(){
       var btn = this;
-      btn.disabled = true;
-      btn.textContent = 'Menyiapkan pembayaran...';
-      document.getElementById('step2Note').textContent = '';
+      var amountText = document.getElementById('payAmount').textContent;
 
-      fetch(PAYMENT_ENDPOINT, {
+      function sendWa(fileUrl){
+        var msg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') +
+          '. Saya sudah transfer untuk paket Picdrop ' + currentPackage + ' sebesar ' + amountText +
+          (fileUrl ? '. Bukti transfer: ' + fileUrl : (buktiFileName ? ' (bukti TF: ' + buktiFileName + ', akan saya lampirkan di chat ini)' : '')) +
+          '. Mohon dicek dan diproses aktivasi lisensinya.';
+        window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(msg), '_blank');
+        closeModal();
+        btn.disabled = false;
+        btn.textContent = 'Kirim Konfirmasi via WhatsApp';
+      }
+
+      if(!buktiBase64){
+        // no file selected — proceed without upload
+        sendWa(null);
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Mengupload bukti TF...';
+
+      fetch(UPLOAD_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
-          action: 'createTransaction',
           packageName: currentPackage,
-          nama: namaVal,
-          wa: waVal,
-          email: emailVal
+          fileName: buktiFileName,
+          mimeType: buktiMime,
+          fileData: buktiBase64
         })
       })
-        .then(function(res){
-          if(!res.ok){
-            return res.text().then(function(txt){
-              throw new Error('HTTP ' + res.status + ': ' + txt.substring(0, 300));
-            });
-          }
-          return res.json();
-        })
+        .then(function(res){ return res.json(); })
         .then(function(data){
-          btn.disabled = false;
-          btn.textContent = 'Bayar Sekarang';
-          if(!data || !data.ok){
-            document.getElementById('step2Note').textContent = 'Gagal menyiapkan pembayaran: ' + (data && data.error ? data.error : 'error tidak diketahui');
-            return;
+          if(data && data.ok){
+            sendWa(data.fileUrl);
+          } else {
+            alert('Upload bukti TF gagal: ' + (data && data.error ? data.error : 'error tidak diketahui') + '. Lanjut ke WhatsApp saja dulu.');
+            sendWa(null);
           }
-          currentOrderId = data.orderId;
-          window.snap.pay(data.snapToken, {
-            onSuccess: function(){ showWaitingAndPoll(); },
-            onPending: function(){ showWaitingAndPoll(); },
-            onError: function(){ document.getElementById('step2Note').textContent = 'Pembayaran gagal, coba lagi.'; },
-            onClose: function(){ /* user closed popup without finishing — stay on step2 */ }
-          });
         })
-        .catch(function(err){
-          btn.disabled = false;
-          btn.textContent = 'Bayar Sekarang';
-          document.getElementById('step2Note').textContent = 'Error: ' + (err && err.message ? err.message : String(err));
+        .catch(function(){
+          alert('Gagal menghubungi server upload. Lanjut ke WhatsApp, lampirkan bukti TF manual ya.');
+          sendWa(null);
         });
     });
-
-    function showWaitingAndPoll(){
-      step2.style.display = 'none';
-      step3.style.display = 'block';
-      document.getElementById('step3Waiting').style.display = 'block';
-      document.getElementById('step3Success').style.display = 'none';
-
-      var attempts = 0;
-      pollTimer = setInterval(function(){
-        attempts++;
-        fetch(PAYMENT_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'checkStatus', orderId: currentOrderId })
-        })
-          .then(function(res){ return res.json(); })
-          .then(function(data){
-            if(data && data.ok && data.status === 'paid' && data.licenseKey){
-              clearInterval(pollTimer);
-              pollTimer = null;
-              document.getElementById('step3Waiting').style.display = 'none';
-              document.getElementById('step3Success').style.display = 'block';
-              document.getElementById('licenseKeyDisplay').textContent = data.licenseKey;
-              document.getElementById('licenseCopyBtn').onclick = function(){ copyText(data.licenseKey); };
-            }
-          })
-          .catch(function(){});
-        if(attempts > 60){ clearInterval(pollTimer); pollTimer = null; } // stop after ~5 minutes
-      }, 5000);
-    }
-
-    document.getElementById('step3CloseBtn').addEventListener('click', closeModal);
   })();
 
   // Install tabs
@@ -1228,7 +1197,6 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 });
 </script>
-
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-box">
@@ -1250,10 +1218,6 @@ document.addEventListener('DOMContentLoaded', function(){
           <label for="fUser">Username Fo**Yu (opsional)</label>
           <input type="text" id="fUser" placeholder="username kamu di Fo**Yu">
         </div>
-        <div class="modal-field" id="emailFieldWrap">
-          <label for="fEmail">Email <span style="color:var(--muted-2); font-weight:400;">(buat kirim kode lisensi)</span></label>
-          <input type="email" id="fEmail" placeholder="nama@email.com">
-        </div>
         <button type="submit" class="btn btn-primary btn-block" id="step1Submit">Lanjut ke WhatsApp</button>
       </form>
     </div>
@@ -1261,48 +1225,32 @@ document.addEventListener('DOMContentLoaded', function(){
     <div id="modalStep2" style="display:none;">
       <button class="modal-back" id="modalBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>Kembali</button>
       <h3>Pembayaran Paket <span id="payPackageName"></span></h3>
-      <p class="modal-sub">Klik tombol di bawah untuk bayar — bisa QRIS, transfer VA, kartu, atau e-wallet. Kode lisensi otomatis muncul begitu pembayaran terkonfirmasi.</p>
+      <p class="modal-sub">Transfer sesuai nominal, upload bukti TF untuk diingat, lalu lanjutkan ke WhatsApp untuk konfirmasi.</p>
 
       <div class="pay-summary">
-        <span>Total pembayaran</span>
+        <span>Total transfer</span>
         <b id="payAmount">Rp0</b>
       </div>
 
-      <button type="button" class="btn btn-primary btn-block" id="step2Submit">Bayar Sekarang</button>
-      <p class="modal-note" id="step2Note">Pembayaran diproses aman lewat Midtrans.</p>
-    </div>
+      <div class="pay-methods">
+        <div class="pay-method">
+          <div class="pm-label">TRANSFER BANK — BCA a.n. Dwi Yudianto</div>
+          <div class="pm-value"><span>8465804455</span><button type="button" class="pay-copy" onclick="copyText('8465804455')">Salin</button></div>
+        </div>
+      </div>
 
-    <div id="modalStep3" style="display:none; text-align:center;">
-      <div id="step3Waiting">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:36px; height:36px; color:var(--accent-2); margin:0 auto 16px; animation:spin 1.2s linear infinite;"><path d="M4 12a8 8 0 0 1 14-5M20 12a8 8 0 0 1-14 5M20 4v5h-5M4 20v-5h5"/></svg>
-        <h3>Menunggu konfirmasi pembayaran...</h3>
-        <p class="modal-sub">Jangan tutup halaman ini. Biasanya cuma beberapa detik.</p>
-      </div>
-      <div id="step3Success" style="display:none;">
-        <div style="width:48px; height:48px; margin:0 auto 16px; border-radius:50%; background:rgba(34,211,184,.15); display:flex; align-items:center; justify-content:center;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--good)" stroke-width="3" style="width:24px; height:24px;"><path d="M4 12l5 5L20 6"/></svg>
-        </div>
-        <h3>Pembayaran berhasil!</h3>
-        <p class="modal-sub">Ini kode lisensi kamu — sudah dikirim ke email juga kalau tadi diisi.</p>
-        <div class="pay-summary" style="justify-content:center; gap:12px;">
-          <b id="licenseKeyDisplay" style="font-size:17px; letter-spacing:0.5px;">—</b>
-          <button type="button" class="pay-copy" id="licenseCopyBtn">Salin</button>
-        </div>
-        <p class="modal-note">Buka aplikasi Picdrop, masukkan kode ini untuk aktivasi.</p>
-        <button type="button" class="btn btn-primary btn-block" id="step3CloseBtn" style="margin-top:8px;">Selesai</button>
-      </div>
+      <label class="upload-box" id="uploadBox">
+        <input type="file" id="fBukti" accept="image/*" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M12 4L7 9M12 4l5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
+        <p id="uploadText">Klik untuk pilih screenshot bukti transfer</p>
+        <span>JPG/PNG — untuk kamu lampirkan manual di chat WhatsApp</span>
+      </label>
+
+      <button type="button" class="btn btn-primary btn-block" id="step2Submit">Kirim Konfirmasi via WhatsApp</button>
+      <p class="modal-note">Setelah kirim, lampirkan screenshot bukti transfer di chat WhatsApp yang terbuka — admin akan cek dan proses aktivasi lisensi.</p>
     </div>
   </div>
 </div>
-
-<style>
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-</style>
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-NgLH9RKqlweMGf5n"></script>
-
-<a class="floating-chat" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20tanya-tanya%20soal%20Picdrop%20Upload%20Assistant." target="_blank" rel="noopener" aria-label="Chat Admin via WhatsApp">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l5.07-1.33A9.96 9.96 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm4.86 14.14c-.2.57-1.18 1.1-1.65 1.16-.42.06-.95.09-1.53-.1-.35-.11-.8-.25-1.38-.5-2.43-1.05-4.02-3.5-4.14-3.66-.12-.16-.99-1.31-.99-2.5s.62-1.77.84-2.01c.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.55.42.2.49.68 1.68.74 1.8.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.32-.36.43-.12.12-.24.25-.1.49.14.24.61 1.01 1.31 1.63.9.8 1.66 1.05 1.9 1.17.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.14 1.15z"/></svg>
-</a>
 
 </body>
 </html>
