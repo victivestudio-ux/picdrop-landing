@@ -291,6 +291,18 @@
   .dl-btn.disabled .dl-text span{color:var(--warn);}
   .cta-band-downloads{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:18px;}
 
+  /* ---------- Tethering software download grid ---------- */
+  .tsw-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:14px; margin-top:32px;}
+  .tsw-card{
+    display:flex; flex-direction:column; gap:8px; padding:18px 20px;
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .tsw-card:hover{border-color:var(--accent); transform:translateY(-2px);}
+  .tsw-name{font-family:var(--display); font-weight:600; font-size:16px; color:var(--text);}
+  .tsw-desc{font-size:13px; color:var(--muted); line-height:1.5; flex:1;}
+  .tsw-link{font-family:var(--mono); font-size:12px; color:var(--accent-2); margin-top:4px;}
+
   /* ---------- Comparison table ---------- */
   .vs-wrap{padding:88px 0;}
   .vs-card{
@@ -752,6 +764,66 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="section" id="tethering-software">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Tethering</div>
+      <h2>Download software tethering kamera</h2>
+      <p>Software resmi dari tiap merek kamera — install salah satu sesuai kamera kamu, arahkan foldernya ke Picdrop, lalu foto langsung terupload otomatis.</p>
+    </div>
+
+    <div class="tsw-grid">
+      <a class="tsw-card" href="https://www.usa.canon.com/support/eos-utilities" target="_blank" rel="noopener">
+        <div class="tsw-name">Canon EOS Utility</div>
+        <div class="tsw-desc">Pilih model kamera kamu di halaman Canon Support untuk link download yang sesuai.</div>
+        <span class="tsw-link">Buka Canon Support →</span>
+      </a>
+      <a class="tsw-card" href="https://www.nikonusa.com/content/nx-tether" target="_blank" rel="noopener">
+        <div class="tsw-name">Nikon NX Tether</div>
+        <div class="tsw-desc">Software tethering resmi Nikon, gratis, download langsung dari halaman produknya.</div>
+        <span class="tsw-link">Download NX Tether →</span>
+      </a>
+      <a class="tsw-card" href="https://imagingedge.sony.net/en-us/ie-desktop.html" target="_blank" rel="noopener">
+        <div class="tsw-name">Sony Imaging Edge Desktop</div>
+        <div class="tsw-desc">Termasuk fitur Remote (tethered shooting) untuk kamera Sony.</div>
+        <span class="tsw-link">Download Imaging Edge →</span>
+      </a>
+      <a class="tsw-card" href="https://fujifilm-x.com/en-us/support/download/software/x-acquire/" target="_blank" rel="noopener">
+        <div class="tsw-name">Fujifilm X Acquire</div>
+        <div class="tsw-desc">Tethering resmi untuk kamera Fujifilm X series.</div>
+        <span class="tsw-link">Download X Acquire →</span>
+      </a>
+      <a class="tsw-card" href="https://panasonic.jp/support/global/cs/dsc/download/index4.html" target="_blank" rel="noopener">
+        <div class="tsw-name">Panasonic Lumix Tether</div>
+        <div class="tsw-desc">Cek halaman support Panasonic Lumix untuk versi terbaru sesuai kamera kamu.</div>
+        <span class="tsw-link">Buka Panasonic Support →</span>
+      </a>
+      <a class="tsw-card" href="https://explore.omsystem.com/global/en/support/software" target="_blank" rel="noopener">
+        <div class="tsw-name">OM System Capture</div>
+        <div class="tsw-desc">Untuk kamera OM System / Olympus.</div>
+        <span class="tsw-link">Buka OM System Support →</span>
+      </a>
+      <a class="tsw-card" href="https://leica-camera.com/en-int/leica-fotos-app" target="_blank" rel="noopener">
+        <div class="tsw-name">Leica FOTOS</div>
+        <div class="tsw-desc">App resmi Leica untuk transfer &amp; kontrol kamera.</div>
+        <span class="tsw-link">Buka Leica FOTOS →</span>
+      </a>
+      <a class="tsw-card" href="https://www.captureone.com/download" target="_blank" rel="noopener">
+        <div class="tsw-name">Capture One</div>
+        <div class="tsw-desc">Mendukung tethering multi-merek (Canon, Nikon, Sony, Fujifilm, Panasonic, dll).</div>
+        <span class="tsw-link">Download Capture One →</span>
+      </a>
+      <a class="tsw-card" href="https://www.adobe.com/products/photoshop-lightroom.html" target="_blank" rel="noopener">
+        <div class="tsw-name">Adobe Lightroom Classic</div>
+        <div class="tsw-desc">Fitur Tethered Capture bawaan Lightroom Classic (perlu langganan Adobe).</div>
+        <span class="tsw-link">Buka Adobe Lightroom →</span>
+      </a>
+    </div>
+
+    <p class="pricing-note" style="margin-top:24px;">Pakai SD card WiFi (Eyefi dan sejenisnya)? Ikuti panduan bawaan kartu/aplikasinya, lalu arahkan Picdrop ke folder tempat foto otomatis tersimpan di komputer kamu.</p>
   </div>
 </section>
 
