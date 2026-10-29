@@ -1,0 +1,7 @@
+{
+  "versionCode": 44,
+  "versionName": "0.1.43",
+  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.43/Picdrop-0.1.43.apk",
+  "notes": "• Foto yang sudah di-upload lewat web FotoYu tidak ter-upload dobel\n• Tethering Sony (A7 IV, A7C, A6700) diperbaiki\n• Tethering video untuk Nikon/Canon/Fuji\n• Notifikasi update otomatis",
+  "mandatory": false
+}
