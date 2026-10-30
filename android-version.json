@@ -1,7 +1,7 @@
 {
-  "versionCode": 45,
-  "versionName": "0.1.44",
-  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.44/Picdrop-0.1.44.apk",
-  "notes": "• Paket lisensi baru: 2 bulan, 3 bulan, 6 bulan, 1 tahun\n• Perbaikan tethering Sony (A7 IV, A7C, A6700)",
+  "versionCode": 46,
+  "versionName": "0.1.45",
+  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.45/Picdrop-0.1.45.apk",
+  "notes": "• Edit harga & FotoTree di Analisis\n• Video Nikon tethering bisa ter-upload\n• Tampilan update lebih rapi",
   "mandatory": false
 }
