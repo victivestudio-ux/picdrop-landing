@@ -1,7 +1,7 @@
 {
-  "versionCode": 46,
-  "versionName": "0.1.45",
-  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.45/Picdrop-0.1.45.apk",
-  "notes": "• Edit harga & FotoTree di Analisis\n• Video Nikon tethering bisa ter-upload\n• Tampilan update lebih rapi",
+  "versionCode": 47,
+  "versionName": "0.1.46",
+  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.46/Picdrop-0.1.46.apk",
+  "notes": "• Perbaikan aktivasi lisensi\n• Fitur Ganjil/Genap dinonaktifkan sementara",
   "mandatory": false
 }
