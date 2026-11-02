@@ -1,7 +1,7 @@
 {
-  "versionCode": 47,
-  "versionName": "0.1.46",
-  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.46/Picdrop-0.1.46.apk",
-  "notes": "• Perbaikan aktivasi lisensi\n• Fitur Ganjil/Genap dinonaktifkan sementara",
+  "versionCode": 48,
+  "versionName": "0.1.47",
+  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.47/Picdrop-0.1.47.apk",
+  "notes": "• Kirim Ulang foto & video terjual langsung dari HP\n• Widget layar utama: penjualan & upload hari ini\n• Ringkasan Keuangan di Analisis\n• Penjelasan error yang mudah dipahami\n• File tethering tidak lagi memenuhi memori HP",
   "mandatory": false
 }
