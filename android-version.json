@@ -1,7 +1,7 @@
 {
-  "versionCode": 48,
-  "versionName": "0.1.47",
-  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.47/Picdrop-0.1.47.apk",
-  "notes": "• Kirim Ulang foto & video terjual langsung dari HP\n• Widget layar utama: penjualan & upload hari ini\n• Ringkasan Keuangan di Analisis\n• Penjelasan error yang mudah dipahami\n• File tethering tidak lagi memenuhi memori HP",
+  "versionCode": 50,
+  "versionName": "0.1.49",
+  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.49/Picdrop-0.1.49.apk",
+  "notes": "✨ Tampilan baru yang lebih lega & bersih\n• Beranda: pendapatan hari ini sekilas\n• Tombol Upload di tengah\n• Ikon baru + mode terang & gelap\n• Progres lebih ringkas\n• Keuangan: saldo FotoYu (bisa disembunyikan)\n• Login sampai 3 akun FotoYu dengan 1 lisensi\n• Perbaikan foto yang macet di proses upload",
   "mandatory": false
 }
