@@ -1,7 +1,7 @@
 {
-  "versionCode": 50,
-  "versionName": "0.1.49",
-  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.49/Picdrop-0.1.49.apk",
-  "notes": "✨ Tampilan baru yang lebih lega & bersih\n• Beranda: pendapatan hari ini sekilas\n• Tombol Upload di tengah\n• Ikon baru + mode terang & gelap\n• Progres lebih ringkas\n• Keuangan: saldo FotoYu (bisa disembunyikan)\n• Login sampai 3 akun FotoYu dengan 1 lisensi\n• Perbaikan foto yang macet di proses upload",
+  "versionCode": 51,
+  "versionName": "0.1.50",
+  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.50/Picdrop-0.1.50.apk",
+  "notes": "✨ Baru:\n• Analisa Event - hitung berapa banyak foto tiap fotografer per event/FotoTree\n• Notifikasi \"Foto Terkonfirm\" dengan suara\n• Filter Foto/Video + Kelompokkan per FotoTree di Analisis Foto\n• Notifikasi foto terjual tidak nyangkut lagi setelah dikirim ulang\n• Mode Jepret kini vertikal mengikuti pengaturan rotasi HP",
   "mandatory": false
 }
