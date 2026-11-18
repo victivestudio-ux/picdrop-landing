@@ -1,7 +1,7 @@
 {
-  "versionCode": 52,
-  "versionName": "0.1.51",
-  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.51/Picdrop-0.1.51.apk",
-  "notes": "✨ Perbaikan:\n• Foto yang sebenarnya sudah ke-upload tidak lagi ditandai \"gagal\" & ter-upload dobel kalau koneksi sempat putus di tengah proses\n• Tidak salah dianggap macet saat antrean sedang banyak (event besar)",
+  "versionCode": 53,
+  "versionName": "0.1.52",
+  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.52/Picdrop-0.1.52.apk",
+  "notes": "• Perbaikan \"Link upload kedaluwarsa\" yang sering gagal retry\n• Mode Jepret: kotak foto terakhir tidak hilang lagi kalau angka berhasil sudah di atas 1000\n• Tombol putus koneksi kamera lebih kontras/jelas terbaca",
   "mandatory": false
 }
