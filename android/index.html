@@ -1,38 +1,1395 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Download Picdrop Android</title>
-<meta name="robots" content="noindex">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F4F8FB">
+<title>Picdrop Upload Assistant — Upload Ribuan Foto ke Fo**Yu, Bukan Satu-Satu</title>
+<meta name="description" content="Picdrop memindai folder event kamu, mengompres, dan mengunggah paralel ke FotoTree yang benar — otomatis, anti-duplikat, real-time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0C1420;--panel:#121D2D;--text:#E6EEF8;--muted:#8AA0B8;--accent:#3BA7FF;color-scheme:dark}
-  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-align:center;padding:24px;box-sizing:border-box}
-  .card{background:var(--panel);border-radius:18px;padding:28px 24px;max-width:360px;width:100%}
-  h1{font-size:20px;margin:0 0 6px}
-  p{color:var(--muted);font-size:14px;line-height:1.5;margin:0 0 18px}
-  a.btn{display:block;background:var(--accent);color:#04121F;text-decoration:none;font-weight:700;padding:14px;border-radius:12px}
+  :root{
+    --ink:#0F1E33;
+    --ink-2:#2B3F5C;
+    --muted:#556780;
+    --line:#D6E0EA;
+    --paper:#FFFFFF;
+    --daylight:#F4F8FB;
+    --aqua:#DDF2EF;
+    --aqua-deep:#BFE5E0;
+    --blue:#1769D1;
+    --teal:#0B7F72;
+    --bib:#FF5A1F;
+    --bad:#B83227;
+    /* nama lama tetap ada supaya gaya inline lama tidak putus */
+    --bg:var(--daylight); --surface:var(--paper); --text:var(--ink);
+    --display:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    --body:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    color-scheme:light;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth; scroll-padding-top:84px;}
+  body{
+    background:var(--daylight); color:var(--ink);
+    font-family:var(--body); font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  a{color:inherit; text-decoration:none;}
+  img,svg{display:block; max-width:100%;}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 24px;}
+  h1,h2,h3,h4{font-family:var(--display); font-weight:800; font-stretch:85%; letter-spacing:-0.02em; line-height:1.04; color:var(--ink); text-wrap:balance;}
+  .nb{white-space:nowrap;}
+  ::selection{background:var(--bib); color:var(--ink);}
+  :focus-visible{outline:3px solid var(--blue); outline-offset:3px; border-radius:6px;}
+
+  /* ---------- Tombol: stiker bercetak, tepi tinta + bayangan keras ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-family:var(--body); font-weight:700; font-size:15.5px; line-height:1.2;
+    padding:13px 22px; border-radius:12px; border:2px solid var(--ink);
+    cursor:pointer; white-space:nowrap; color:var(--ink); background:transparent;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease;
+  }
+  .btn-primary{background:var(--bib); box-shadow:3px 3px 0 var(--ink);}
+  .btn-primary:hover{transform:translate(-1px,-1px); box-shadow:4px 4px 0 var(--ink);}
+  .btn-primary:active{transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink);}
+  .btn-ghost{background:var(--paper);}
+  .btn-ghost:hover{background:var(--ink); color:#fff;}
+  .btn-sm{padding:9px 16px; font-size:14px; border-radius:10px;}
+  .btn-sm.btn-primary{box-shadow:2px 2px 0 var(--ink);}
+  .btn-block{width:100%;}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(244,248,251,.9); backdrop-filter:saturate(1.4) blur(10px); -webkit-backdrop-filter:saturate(1.4) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; gap:24px; height:68px;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{width:30px; height:30px; flex:none;}
+  .brand-text{display:flex; flex-direction:column; line-height:1.05;}
+  .brand-text b{font-family:var(--display); font-weight:800; font-stretch:90%; font-size:23px; letter-spacing:-0.03em; color:var(--ink);}
+  .brand-text span{font-size:11.5px; color:var(--muted); font-weight:500; margin-top:2px;}
+  .nav-links{display:flex; gap:4px;}
+  .nav-links a{padding:8px 13px; border-radius:8px; font-weight:600; font-size:15px; color:var(--ink-2);}
+  .nav-links a:hover{background:var(--aqua); color:var(--ink);}
+  .nav-cta{display:flex; align-items:center; gap:10px;}
+  .nav-toggle{
+    display:none; width:44px; height:44px; align-items:center; justify-content:center;
+    background:var(--paper); border:2px solid var(--ink); border-radius:10px; color:var(--ink); cursor:pointer;
+  }
+  .nav-toggle svg{width:22px; height:22px;}
+  .mobile-menu{display:none; flex-direction:column; padding:6px 0 16px;}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{padding:13px 4px; font-weight:600; border-bottom:1px solid var(--line); color:var(--ink-2);}
+  @media (max-width:900px){
+    .nav-links{display:none;}
+    .nav-toggle{display:inline-flex;}
+  }
+  @media (max-width:640px){
+    .nav-cta .btn-ghost{display:none;}
+    .brand-text span{display:none;}
+  }
+  @media (max-width:520px){
+    .nav-cta .btn-primary{display:none;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); gap:56px; align-items:center;
+    padding-top:72px; padding-bottom:72px;
+  }
+  .badge-new{
+    display:inline-flex; align-items:center; gap:14px; max-width:100%;
+    background:var(--paper); border:2px solid var(--ink); border-radius:999px;
+    padding:10px 24px 10px 10px; font-size:17px; font-weight:600; color:var(--ink); margin-bottom:26px;
+  }
+  .badge-new .tag{
+    flex:none; background:var(--bib); color:var(--ink); font-weight:800; font-size:14.5px;
+    padding:6px 16px; border-radius:999px;
+  }
+  .eyebrow{font-size:15.5px; font-weight:600; color:var(--muted); margin-bottom:12px;}
+  .hero h1{font-size:clamp(38px,5.4vw,66px); font-weight:800; font-stretch:78%; letter-spacing:-0.028em; line-height:1; margin-bottom:22px;}
+  .hero h1 em{font-style:normal; white-space:nowrap;}
+  .lead{font-size:18.5px; line-height:1.55; color:var(--ink-2); max-width:54ch; margin-bottom:30px;}
+  .hero-ctas{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:26px;}
+  .trust-row{display:flex; flex-wrap:wrap; gap:10px 24px; font-size:14.5px; color:var(--muted); font-weight:500;}
+  .trust-row span{display:inline-flex; align-items:center; gap:8px;}
+  .trust-row svg{width:18px; height:18px; color:var(--teal); flex:none;}
+  .download-row{display:flex; flex-wrap:wrap; gap:12px; margin-top:34px; padding-top:28px; border-top:1px solid var(--line);}
+  .dl-btn{
+    display:inline-flex; align-items:center; gap:12px; padding:11px 18px 11px 14px;
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .dl-btn:hover{border-color:var(--ink); background:#fff;}
+  .dl-btn > svg{width:24px; height:24px; flex:none; color:var(--ink);}
+  .dl-text{display:flex; flex-direction:column; line-height:1.25;}
+  .dl-text b{font-size:15px; font-weight:700;}
+  .dl-text span{font-size:12.5px; color:var(--muted);}
+
+  /* Nomor dada: penghitung foto diunggah */
+  .bib-wrap{background:var(--aqua); border-radius:28px; padding:48px 32px 28px; position:relative; overflow:hidden;}
+  .bib{
+    position:relative; max-width:380px; margin:0 auto; background:#fff;
+    border:2px solid var(--ink); border-radius:10px; box-shadow:7px 7px 0 var(--ink);
+    padding:20px 26px 18px; transform:rotate(-2.4deg);
+    animation:bib-drop .7s cubic-bezier(.2,.9,.3,1.2) both;
+  }
+  .bib .pin{position:absolute; width:13px; height:13px; border-radius:50%; background:var(--aqua); border:2px solid var(--ink);}
+  .bib .pin.tl{top:9px; left:9px;} .bib .pin.tr{top:9px; right:9px;}
+  .bib .pin.bl{bottom:9px; left:9px;} .bib .pin.br{bottom:9px; right:9px;}
+  .bib-brand{
+    display:flex; align-items:center; justify-content:center; gap:8px; padding:4px 20px 12px;
+    border-bottom:2px solid var(--ink); font-family:var(--display); font-weight:800; font-stretch:90%;
+    font-size:21px; letter-spacing:-0.02em; color:var(--blue);
+  }
+  .bib-brand svg{width:20px; height:20px;}
+  .bib-num{
+    font-family:var(--display); font-weight:800; font-stretch:75%; font-variant-numeric:tabular-nums;
+    font-size:clamp(84px,11vw,132px); line-height:1; letter-spacing:-0.02em; text-align:center; padding:18px 0 10px;
+    color:var(--ink);
+  }
+  .bib-cap{
+    display:flex; align-items:center; justify-content:center; gap:8px; padding:10px 8px 4px;
+    border-top:2px solid var(--ink); font-size:14.5px; font-weight:600; color:var(--ink-2);
+  }
+  .dot-live{width:9px; height:9px; border-radius:50%; background:var(--teal); display:inline-block; animation:pulse 1.8s ease-in-out infinite;}
+  .flow-stats{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:34px;}
+  .stat-box{background:rgba(255,255,255,.85); border-radius:14px; padding:14px 16px; display:flex; flex-direction:column; gap:2px;}
+  .stat-box b{font-family:var(--display); font-weight:800; font-stretch:85%; font-size:24px; letter-spacing:-0.02em; line-height:1.1;}
+  .stat-box span{font-size:13.5px; color:var(--muted); font-weight:500;}
+  @keyframes pulse{0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.45; transform:scale(.8);}}
+  @keyframes bib-drop{
+    0%{opacity:0; transform:translateY(-26px) rotate(-9deg);}
+    100%{opacity:1; transform:translateY(0) rotate(-2.4deg);}
+  }
+  @media (max-width:940px){
+    .hero{grid-template-columns:1fr; gap:44px; padding-top:48px; padding-bottom:48px;}
+    .bib-wrap{padding:40px 22px 22px;}
+  }
+
+  /* ---------- Perbandingan singkat ---------- */
+  .compare{padding-bottom:24px;}
+  .compare-grid{border-top:2px solid var(--ink);}
+  .compare-head, .compare-row{display:grid; grid-template-columns:1fr 1fr; gap:40px;}
+  .compare-head{padding:14px 0 6px; font-size:14.5px; font-weight:700; color:var(--muted);}
+  .compare-row{padding:20px 0; border-top:1px solid var(--line);}
+  .compare-line{display:flex; align-items:flex-start; gap:12px; font-size:16px; line-height:1.5;}
+  .compare-line.old{color:var(--muted);}
+  .compare-line.new{color:var(--ink); font-weight:600;}
+  .ico{flex:none; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-top:1px;}
+  .ico svg{width:13px; height:13px;}
+  .ico.bad{background:#FBE4E1; color:var(--bad);}
+  .ico.good{background:var(--aqua); color:var(--teal);}
+  @media (max-width:760px){
+    .compare-head{display:none;}
+    .compare-row{grid-template-columns:1fr; gap:12px;}
+  }
+
+  /* ---------- Tabel perbandingan ---------- */
+  .vs-wrap{margin-top:72px;}
+  .vs-card{border:2px solid var(--ink); border-radius:20px; background:var(--paper); overflow:hidden;}
+  .vs-head{padding:34px 36px 26px;}
+  .vs-head h2{font-size:clamp(28px,3.6vw,40px); margin-bottom:10px;}
+  .vs-head p{color:var(--muted); max-width:60ch; font-size:16.5px;}
+  .vs-scroll{overflow-x:auto;}
+  .vs-table{width:100%; border-collapse:collapse; min-width:680px; font-size:15px;}
+  .vs-table th{
+    text-align:left; padding:14px 22px; background:var(--ink); color:#fff; font-weight:700; font-size:14.5px; white-space:nowrap;
+  }
+  .vs-table th.col-us{background:var(--bib); color:var(--ink);}
+  .vs-table td{padding:16px 22px; border-top:1px solid var(--line); vertical-align:top;}
+  .vs-table td.col-feat{font-weight:700; width:24%;}
+  .vs-table td.col-them{color:var(--muted); width:30%;}
+  .vs-table td.col-us{background:#EEF9F7; font-weight:600; border-left:2px solid var(--ink);}
+  .vs-x, .vs-check{display:inline-flex; align-items:center; gap:8px; font-weight:600;}
+  .vs-x{color:var(--bad);} .vs-check{color:var(--teal);}
+  .vs-x svg, .vs-check svg{width:15px; height:15px; flex:none;}
+  @media (max-width:560px){
+    .vs-head{padding:26px 20px 20px;}
+  }
+
+  /* ---------- Section umum ---------- */
+  .section{padding:104px 0 8px;}
+  .section-head{max-width:760px; margin-bottom:52px;}
+  .section-head h2{font-size:clamp(32px,4.6vw,54px); margin-bottom:14px; letter-spacing:-0.025em;}
+  .section-head p{font-size:17.5px; color:var(--muted); max-width:62ch;}
+
+  /* ---------- Fitur ---------- */
+  .feature{
+    display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:64px; align-items:center;
+    padding:56px 0; border-top:1px solid var(--line);
+  }
+  .feature:first-of-type{border-top:2px solid var(--ink);}
+  .feature:nth-of-type(even) .feature-visual{order:-1;}
+  .feature-num{
+    display:inline-block; background:var(--aqua); color:var(--ink); font-weight:700; font-size:13.5px;
+    padding:5px 13px; border-radius:999px; margin-bottom:16px;
+  }
+  .feature h3{font-size:clamp(26px,3.2vw,36px); margin-bottom:14px; letter-spacing:-0.022em;}
+  .feature .desc{font-size:17px; color:var(--ink-2); max-width:50ch; margin-bottom:18px;}
+  .feature ul{list-style:none; display:grid; gap:2px;}
+  .feature li{display:flex; align-items:flex-start; gap:12px; padding:7px 0; color:var(--ink-2); font-size:15.5px;}
+  .feature li svg{width:18px; height:18px; flex:none; color:var(--teal); margin-top:3px;}
+  @media (max-width:900px){
+    .feature{grid-template-columns:1fr; gap:30px; padding:40px 0;}
+    .feature:nth-of-type(even) .feature-visual{order:0;}
+  }
+
+  /* Jendela contoh aplikasi */
+  .mock{border:2px solid var(--ink); border-radius:16px; background:var(--paper); box-shadow:7px 7px 0 var(--aqua-deep); overflow:hidden;}
+  .mock-bar{display:flex; gap:6px; padding:11px 14px; background:var(--daylight); border-bottom:2px solid var(--ink);}
+  .mock-dot{width:10px; height:10px; border-radius:50%; background:#C5D1DE;}
+  .mock-body{padding:16px 18px 10px; display:grid; gap:2px;}
+  .mock-row{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 0 12px; font-weight:600;}
+  .mock-tag{
+    flex:none; font-size:12px; font-weight:700; padding:3px 10px; border-radius:999px;
+    background:#E8EEF4; color:var(--ink-2); white-space:nowrap;
+  }
+  .mock-tag.on{background:#CDEFE9; color:#07645A;}
+  .mock-list-item{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 0; border-bottom:1px solid var(--line); font-size:14px; font-weight:500;}
+  .mock-list-item > span:first-child{display:flex; align-items:center; gap:10px; min-width:0;}
+  .mock-avatar{width:22px; height:22px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3AA0FF,#22D3B8);}
+  .mock-progress{height:10px; background:#E8EEF4; border-radius:999px; overflow:hidden; margin:4px 0 14px;}
+  .mock-progress i{display:block; height:100%; background:var(--blue); border-radius:999px;}
+  .mock-grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding-bottom:8px;}
+  .mock-cell{background:var(--daylight); border-radius:12px; padding:10px 12px; display:flex; flex-direction:column;}
+  .mock-cell b{font-family:var(--display); font-weight:800; font-stretch:85%; font-size:26px; letter-spacing:-0.02em; line-height:1.1;}
+  .mock-cell span{font-size:12.5px; color:var(--muted); font-weight:500;}
+  .mock-search{display:flex; align-items:center; gap:8px; border:2px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13.5px; color:var(--muted); margin-bottom:8px;}
+  .mock-result{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 10px; border-radius:10px; font-size:14px; font-weight:500;}
+  .mock-result > span:first-child{display:flex; align-items:center; gap:10px; min-width:0;}
+  .mock-result.active{background:var(--aqua);}
+  .mock-update-banner{background:var(--aqua); border-radius:12px; padding:16px 18px; margin-bottom:6px;}
+  .mock-update-banner b{display:block; font-size:15px; margin-bottom:6px;}
+  .mock-update-banner ul{margin:0; padding-left:18px; font-size:13.5px; color:var(--ink-2);}
+  .mock-update-banner li{padding:2px 0;}
+
+  /* ---------- Cara kerja ---------- */
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:36px;}
+  .step-card{border-top:2px solid var(--ink); padding-top:24px;}
+  .step-num{
+    width:46px; height:46px; border-radius:50%; background:var(--bib); border:2px solid var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--display); font-weight:800; font-size:22px; margin-bottom:18px;
+  }
+  .step-card h4{font-size:26px; margin-bottom:10px; letter-spacing:-0.02em;}
+  .step-card p{color:var(--ink-2); font-size:16px; max-width:34ch;}
+  @media (max-width:820px){ .steps{grid-template-columns:1fr; gap:30px;} }
+
+  /* ---------- Harga: satu lembar, bukan kartu terpisah ---------- */
+  .pricing-grid{
+    display:grid; grid-template-columns:repeat(5,minmax(0,1fr));
+    border:2px solid var(--ink); border-radius:22px; background:var(--paper); overflow:hidden;
+  }
+  .price-card{
+    position:relative; display:flex; flex-direction:column; gap:6px; padding:46px 22px 24px;
+    box-shadow:inset -1px -1px 0 var(--line);
+  }
+  .price-card h4{font-size:19px; font-weight:700; font-stretch:100%; letter-spacing:-0.01em; font-family:var(--body);}
+  .price-card .amount{font-family:var(--display); font-weight:800; font-stretch:80%; font-size:clamp(32px,3.5vw,44px); letter-spacing:-0.03em; line-height:1.05; margin-top:6px;}
+  .price-card .per{font-size:14.5px; color:var(--muted); line-height:1.45; flex:1; padding-bottom:18px;}
+  .price-card.popular{background:var(--ink); color:#fff; box-shadow:none;}
+  .price-card.popular h4, .price-card.popular .amount{color:#fff;}
+  .price-card.popular .per{color:#B9C7DA;}
+  .popular-tag{
+    position:absolute; top:14px; left:22px; background:var(--bib); color:var(--ink); font-weight:800; font-size:12.5px;
+    padding:3px 11px; border-radius:999px;
+  }
+  .pricing-note{margin-top:22px; color:var(--muted); font-size:15.5px;}
+  @media (max-width:1040px){ .pricing-grid{grid-template-columns:repeat(3,minmax(0,1fr));} }
+  @media (max-width:700px){ .pricing-grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
+  @media (max-width:440px){
+    .pricing-grid{grid-template-columns:1fr;}
+    .price-card{padding-top:26px;}
+    .price-card.popular{padding-top:50px;}
+  }
+
+  /* ---------- Ajakan akhir ---------- */
+  .cta-band{
+    margin-top:104px; background:var(--ink); color:#fff; border-radius:28px; padding:60px 56px;
+  }
+  .cta-band h2{color:#fff; font-size:clamp(32px,4.4vw,52px); margin-bottom:14px; max-width:20ch;}
+  .cta-band-main > p{color:#B9C7DA; font-size:17.5px; max-width:56ch; margin-bottom:28px;}
+  .cta-band-btns{display:flex; flex-wrap:wrap; gap:14px;}
+  .cta-band .btn-primary{border-color:#fff; box-shadow:3px 3px 0 #fff;}
+  .cta-band .btn-primary:hover{box-shadow:4px 4px 0 #fff;}
+  .cta-band .btn-ghost{background:transparent; color:#fff; border-color:#fff;}
+  .cta-band .btn-ghost:hover{background:#fff; color:var(--ink);}
+  .cta-band .pricing-note{color:#B9C7DA;}
+  .cta-band-downloads{display:flex; flex-wrap:wrap; gap:12px; margin-top:14px;}
+  .cta-band .dl-btn{background:transparent; border-color:rgba(255,255,255,.35);}
+  .cta-band .dl-btn:hover{border-color:#fff; background:rgba(255,255,255,.08);}
+  .cta-band .dl-btn > svg{color:#fff;}
+  .cta-band .dl-text b{color:#fff;}
+  .cta-band .dl-text span{color:#B9C7DA;}
+  @media (min-width:921px){
+    .cta-band{display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr); column-gap:56px; align-items:center;}
+    .cta-band-side{border-left:1px solid rgba(255,255,255,.22); padding-left:40px;}
+    .cta-band-side .pricing-note{margin:0 0 16px !important; font-size:16.5px; color:#fff;}
+    .cta-band-downloads{flex-direction:column; align-items:stretch; margin-top:0;}
+  }
+  @media (max-width:920px){
+    .cta-band-side{margin-top:34px; padding-top:28px; border-top:1px solid rgba(255,255,255,.22);}
+    .cta-band-side .pricing-note{margin-top:0 !important;}
+  }
+  @media (max-width:700px){ .cta-band{padding:40px 24px; border-radius:22px; margin-top:80px;} }
+
+  /* ---------- Cara install ---------- */
+  .install-tabs{display:inline-flex; border:2px solid var(--ink); border-radius:12px; overflow:hidden; margin-bottom:34px; background:var(--paper);}
+  .tab-btn{
+    padding:11px 28px; border:0; background:transparent; color:var(--ink); font-family:var(--body);
+    font-size:15px; font-weight:700; cursor:pointer;
+  }
+  .tab-btn + .tab-btn{border-left:2px solid var(--ink);}
+  .tab-btn.active{background:var(--ink); color:#fff;}
+  .install-panel{display:none; grid-template-columns:repeat(4,minmax(0,1fr)); gap:28px;}
+  .install-panel.active{display:grid;}
+  .install-step{border-top:2px solid var(--ink); padding-top:18px;}
+  .install-step .n{font-family:var(--display); font-weight:800; font-stretch:85%; font-size:34px; line-height:1; color:var(--bib); margin-bottom:10px;}
+  .install-step h5{font-size:17.5px; font-weight:700; margin-bottom:8px; line-height:1.3;}
+  .install-step p{font-size:15px; color:var(--ink-2);}
+  .install-step code{
+    display:block; margin-top:10px; background:var(--ink); color:#fff; padding:10px 12px; border-radius:8px;
+    font-family:ui-monospace,'Cascadia Mono','SF Mono',Consolas,monospace; font-size:12.5px; line-height:1.5; word-break:break-all;
+  }
+  @media (max-width:1000px){ .install-panel{grid-template-columns:repeat(2,minmax(0,1fr));} }
+  @media (max-width:560px){ .install-panel{grid-template-columns:1fr;} }
+
+  /* ---------- FAQ ---------- */
+  .faq-list{max-width:840px; margin:0 auto; border-top:2px solid var(--ink);}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-item summary{
+    list-style:none; cursor:pointer; padding:22px 6px; display:flex; align-items:center; gap:16px;
+    font-weight:700; font-size:17px; line-height:1.4; color:var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary:hover{color:var(--blue);}
+  .faq-icon{width:34px; height:34px; border-radius:50%; background:var(--aqua); display:flex; align-items:center; justify-content:center; flex:none; color:var(--ink);}
+  .faq-icon svg{width:17px; height:17px;}
+  .faq-chevron{margin-left:auto; width:18px; height:18px; color:var(--muted); transition:transform .2s ease; flex:none;}
+  .faq-item[open] .faq-chevron{transform:rotate(180deg); color:var(--ink);}
+  .faq-body{padding:0 6px 26px 56px; font-size:16px; color:var(--ink-2);}
+  .faq-body p{margin-bottom:12px;}
+  .faq-body p:last-child{margin-bottom:0;}
+  .faq-body ul{margin:8px 0 12px; padding-left:20px;}
+  .faq-body li{padding:3px 0;}
+  .faq-body b{color:var(--ink);}
+  .faq-warn{background:#FFF1EA; border:1px solid #FFC9B3; color:#7A2A0A; border-radius:10px; padding:12px 14px; margin:12px 0; font-size:15px;}
+  .faq-cmd{
+    display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+    background:var(--ink); color:#fff; border-radius:10px; padding:12px 14px; margin:12px 0;
+    font-family:ui-monospace,'Cascadia Mono','SF Mono',Consolas,monospace; font-size:13px;
+  }
+  .faq-cmd span{word-break:break-all;}
+  .faq-copy{
+    font-family:var(--body); font-weight:700; font-size:13px; color:var(--ink); background:#fff;
+    border:0; border-radius:8px; padding:7px 12px; cursor:pointer; flex:none; white-space:nowrap;
+  }
+  .faq-copy:hover{background:var(--aqua);}
+  @media (max-width:560px){
+    .faq-body{padding:0 4px 22px 4px;}
+    .faq-item summary{padding:18px 2px; font-size:16px; gap:12px;}
+    .faq-icon{width:30px; height:30px;}
+  }
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--ink); color:#fff; margin-top:112px; padding:64px 0 30px;}
+  .foot-grid{display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px; margin-bottom:44px;}
+  footer .brand-text b{color:#fff;}
+  footer .brand-text span{color:#93A4BC;}
+  .foot-brand p{margin-top:16px; color:#B9C7DA; max-width:38ch; font-size:15.5px;}
+  .foot-col{display:flex; flex-direction:column; gap:10px;}
+  .foot-col h5{font-family:var(--display); font-weight:800; font-stretch:90%; font-size:19px; letter-spacing:-0.01em; margin-bottom:6px;}
+  .foot-col a{color:#B9C7DA; font-size:15.5px;}
+  .foot-col a:hover{color:#fff; text-decoration:underline; text-underline-offset:3px;}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.16); padding-top:24px; color:#93A4BC; font-size:13.5px; max-width:80ch;}
+  @media (max-width:760px){ .foot-grid{grid-template-columns:1fr 1fr; gap:34px;} .foot-brand{grid-column:1 / -1;} }
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center; padding:20px;
+    background:rgba(15,30,51,.6); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    position:relative; width:100%; max-width:470px; max-height:calc(100vh - 40px); overflow-y:auto;
+    background:var(--paper); border:2px solid var(--ink); border-radius:20px; padding:32px 30px 28px;
+    box-shadow:8px 8px 0 var(--ink);
+  }
+  .modal-box h3{font-size:30px; margin-bottom:8px; padding-right:36px; letter-spacing:-0.02em;}
+  .modal-close{
+    position:absolute; top:14px; right:14px; width:38px; height:38px; display:flex; align-items:center; justify-content:center;
+    background:var(--paper); border:2px solid var(--ink); border-radius:10px; color:var(--ink); cursor:pointer;
+  }
+  .modal-close:hover{background:var(--ink); color:#fff;}
+  .modal-close svg{width:16px; height:16px;}
+  .modal-sub{color:var(--muted); font-size:15px; margin-bottom:22px;}
+  .modal-field{display:flex; flex-direction:column; gap:6px; margin-bottom:16px;}
+  .modal-field label{font-size:14px; font-weight:700;}
+  .modal-field input{
+    width:100%; font-family:var(--body); font-size:16px; color:var(--ink); background:#fff;
+    border:2px solid var(--line); border-radius:10px; padding:12px 14px;
+  }
+  .modal-field input::placeholder{color:#8696AB;}
+  .modal-field input:focus{outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(23,105,209,.18);}
+  .modal-back{
+    display:inline-flex; align-items:center; gap:4px; margin-bottom:14px; padding:4px 8px 4px 2px;
+    background:transparent; border:0; color:var(--blue); font-family:var(--body); font-weight:700; font-size:14.5px; cursor:pointer;
+  }
+  .modal-back svg{width:16px; height:16px;}
+  .pay-summary{display:flex; align-items:baseline; justify-content:space-between; gap:12px; background:var(--aqua); border-radius:12px; padding:14px 18px; margin-bottom:16px;}
+  .pay-summary span{font-weight:600; color:var(--ink-2);}
+  .pay-summary b{font-family:var(--display); font-weight:800; font-stretch:85%; font-size:30px; letter-spacing:-0.02em;}
+  .pay-methods{display:grid; gap:10px; margin-bottom:16px;}
+  .pay-method{border:2px solid var(--line); border-radius:12px; padding:12px 16px;}
+  .pm-label{font-size:13.5px; font-weight:600; color:var(--muted); margin-bottom:6px;}
+  .pm-value{display:flex; align-items:center; justify-content:space-between; gap:12px;}
+  .pm-value span{font-family:var(--display); font-weight:800; font-stretch:90%; font-size:25px; letter-spacing:.02em; font-variant-numeric:tabular-nums;}
+  .pay-copy{
+    flex:none; font-family:var(--body); font-weight:700; font-size:13.5px; color:var(--ink); background:#fff;
+    border:2px solid var(--ink); border-radius:8px; padding:6px 14px; cursor:pointer;
+  }
+  .pay-copy:hover{background:var(--ink); color:#fff;}
+  .upload-box{
+    display:flex; flex-direction:column; align-items:center; gap:4px; text-align:center; cursor:pointer;
+    border:2px dashed #9FB1C6; border-radius:12px; padding:20px 16px; margin-bottom:16px; color:var(--ink-2);
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .upload-box:hover{border-color:var(--blue); background:#F1F7FE;}
+  .upload-box svg{width:26px; height:26px; color:var(--blue); margin-bottom:4px;}
+  .upload-box p{font-weight:700; font-size:15px; color:var(--ink);}
+  .upload-box span{font-size:13px; color:var(--muted);}
+  .modal-note{margin-top:14px; font-size:13.5px; color:var(--muted);}
+  @media (max-width:480px){ .modal-box{padding:26px 20px 22px;} }
+
+  /* ---------- Gerak: hormati pengaturan pengguna ---------- */
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .bib{animation:none; opacity:1; transform:rotate(-2.4deg);}
+    .dot-live{animation:none;}
+    .faq-chevron{transition:none;}
+    .btn, .dl-btn{transition:none;}
+  }
+
+  /* ---------- Software tethering: daftar bergaris, bukan kartu ---------- */
+  .tether-group{margin-bottom:44px;}
+  .tether-group > h3{font-size:22px; letter-spacing:-0.015em; margin-bottom:14px;}
+  .tether-list{border-top:2px solid var(--ink);}
+  .tether-row{
+    display:grid; grid-template-columns:176px minmax(0,1fr) auto auto; gap:8px 28px; align-items:center;
+    padding:22px 0; border-bottom:1px solid var(--line);
+  }
+  .tether-brand{font-family:var(--display); font-weight:800; font-stretch:85%; font-size:25px; letter-spacing:-0.02em; line-height:1.1; overflow-wrap:anywhere;}
+  .tether-main h4{font-family:var(--body); font-weight:700; font-stretch:100%; font-size:17.5px; letter-spacing:-0.005em; line-height:1.3; margin-bottom:3px;}
+  .tether-main p{font-size:15px; color:var(--muted); max-width:56ch;}
+  .tether-meta{display:flex; align-items:center; flex-wrap:wrap; gap:8px; font-size:13.5px; color:var(--muted); font-weight:500;}
+  .tag-free, .tag-paid{font-weight:700; font-size:12.5px; padding:3px 11px; border-radius:999px; white-space:nowrap;}
+  .tag-free{background:#CDEFE9; color:#07645A;}
+  .tag-paid{background:#E8EEF4; color:var(--ink-2);}
+  .tether-note{margin-top:8px; padding:18px 22px; background:var(--aqua); border-radius:14px; color:var(--ink-2); font-size:15.5px; max-width:84ch;}
+  .tether-note a{color:var(--blue); font-weight:700; text-decoration:underline; text-underline-offset:3px;}
+  @media (max-width:980px){
+    .tether-row{grid-template-columns:150px minmax(0,1fr) auto;}
+    .tether-meta{grid-column:2; grid-row:2;}
+    .tether-row .btn{grid-column:3; grid-row:1 / span 2;}
+  }
+  @media (max-width:620px){
+    .tether-row{grid-template-columns:1fr; gap:6px; padding:20px 0;}
+    .tether-meta, .tether-row .btn{grid-column:1; grid-row:auto;}
+    .tether-row .btn{justify-self:start; margin-top:8px;}
+    .tether-brand{font-size:23px;}
+  }
+  /* Menu: 6 tautan harus muat di layar sedang */
+  @media (max-width:1100px){
+    .nav-links a{padding:8px 9px; font-size:14.5px;}
+    .nav{gap:14px;}
+  }
+  @media (max-width:1010px){
+    .nav-cta .btn-ghost{display:none;}
+  }
 </style>
 </head>
 <body>
-<div class="card">
-  <h1>💧 Picdrop Android</h1>
-  <p id="msg">Menyiapkan download versi terbaru…</p>
-  <a class="btn" id="dl" href="https://github.com/victivestudio-ux/picdrop-downloads/releases">Download APK</a>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none">
+        <path d="M16 2C16 2 6 14.5 6 21.5C6 27 10.5 30 16 30C21.5 30 26 27 26 21.5C26 14.5 16 2 16 2Z" fill="url(#g1)"/>
+        <defs><linearGradient id="g1" x1="6" y1="2" x2="26" y2="30" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#3AA0FF"/><stop offset="1" stop-color="#22D3B8"/>
+        </linearGradient></defs>
+      </svg>
+      <div class="brand-text"><b>picdrop</b><span>powered by lioca</span></div>
+    </div>
+    <nav class="nav-links">
+      <a href="#fitur">Fitur</a>
+      <a href="#cara-kerja">Cara Kerja</a>
+      <a href="#harga">Harga</a>
+      <a href="#cara-instal">Cara Instal</a>
+      <a href="#tethering-software">Software Tethering</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost btn-sm" href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20tanya-tanya%20soal%20Picdrop%20Upload%20Assistant." target="_blank" rel="noopener">Chat Admin</a>
+      <button type="button" class="btn btn-primary btn-sm" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
+      <button class="nav-toggle" id="navToggle" aria-label="Buka menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#fitur">Fitur</a>
+      <a href="#cara-kerja">Cara Kerja</a>
+      <a href="#harga">Harga</a>
+      <a href="#cara-instal">Cara Instal</a>
+      <a href="#tethering-software">Software Tethering</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20tanya-tanya%20soal%20Picdrop%20Upload%20Assistant." target="_blank" rel="noopener">Chat Admin via WhatsApp</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <div>
+    <div class="badge-new"><span class="tag">BARU</span> Picdrop Android resmi rilis — tethering kamera langsung dari HP, tanpa laptop</div>
+    <div class="eyebrow">Aplikasi desktop untuk fotografer Fo**Yu</div>
+    <h1>Upload ribuan foto ke Fo**Yu.<br>Bukan <em>satu-satu</em>.</h1>
+    <p class="lead">Picdrop memindai folder event kamu, mengompres, lalu mengunggah paralel ke FotoTree yang benar — otomatis, anti-duplikat, dan bisa dipantau real-time dari satu dashboard.</p>
+    <div class="hero-ctas">
+      <button type="button" class="btn btn-primary" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
+      <a class="btn btn-ghost" href="https://wa.me/6287722121222" target="_blank" rel="noopener">Chat Admin via WhatsApp</a>
+    </div>
+    <div class="trust-row">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>Lisensi terkunci per perangkat</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5M20 12a8 8 0 0 1-14 5M20 4v5h-5M4 20v-5h5"/></svg>Update otomatis</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>Windows, macOS &amp; Android</span>
+    </div>
+
+    <div class="download-row">
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.102/Picdrop-Upload-Assistant-Setup-0.1.102.exe" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10 4.4v7.1H3V5.5zm8-1.3l9-1.2v8.6h-9V4.2zM3 12.5h7v7.1L3 18.5v-6zm8 0h9v8.7l-9-1.2v-7.5z"/></svg>
+        <span class="dl-text"><b>Download untuk Windows</b><span>v0.1.102 · .exe</span></span>
+      </a>
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.102/Picdrop.Upload.Assistant-0.1.102.dmg" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2c.1 1.1-.3 2.2-1 3-.8.9-2 1.6-3.2 1.5-.1-1.1.4-2.3 1.1-3C14.2 2.6 15.4 2 16.5 2zM20.3 17.4c-.5 1.1-.8 1.6-1.4 2.6-.9 1.4-2.2 3.1-3.8 3.1-1.4 0-1.8-.9-3.7-.9s-2.3.9-3.7.9c-1.6 0-2.8-1.6-3.7-3-2.5-3.9-2.8-8.5-1.2-10.9 1.1-1.7 2.9-2.7 4.5-2.7 1.7 0 2.8 1 4.2 1 1.4 0 2.2-1 4.2-1 1.5 0 3 .8 4.1 2.2-3.6 2-3 7.1.5 8.7z"/></svg>
+        <span class="dl-text"><b>Download untuk Mac</b><span>v0.1.102 · .dmg</span></span>
+      </a>
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.52/Picdrop-0.1.52.apk" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 9.5l1.4-2.4a.5.5 0 0 0-.9-.5l-1.4 2.5a7.9 7.9 0 0 0-7.4 0L7.9 6.6a.5.5 0 0 0-.9.5l1.4 2.4A7 7 0 0 0 5 16h14a7 7 0 0 0-3.4-6.5zM9.5 13.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM5 17v4a1.5 1.5 0 0 0 3 0v-4H5zm11 0v4a1.5 1.5 0 0 0 3 0v-4h-3zM8.5 17v4.5a1.5 1.5 0 0 0 3 0V17h-3zm4 0v4.5a1.5 1.5 0 0 0 3 0V17h-3z"/></svg>
+        <span class="dl-text"><b>Download untuk Android</b><span>v0.1.52 · .apk</span></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="bib-wrap">
+    <div class="bib">
+      <span class="pin tl"></span><span class="pin tr"></span><span class="pin bl"></span><span class="pin br"></span>
+      <div class="bib-brand">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M16 2C16 2 6 14.5 6 21.5C6 27 10.5 30 16 30C21.5 30 26 27 26 21.5C26 14.5 16 2 16 2Z" fill="currentColor"/></svg>
+        picdrop
+      </div>
+      <div class="bib-num" id="counter">0000</div>
+      <div class="bib-cap"><span class="dot-live"></span>Foto diunggah · sesi ini</div>
+    </div>
+    <div class="flow-stats">
+      <div class="stat-box"><b>0</b><span>Duplikat dilewati</span></div>
+      <div class="stat-box"><b>FotoTree</b><span>Terkunci &amp; benar</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="compare wrap">
+  <div class="compare-grid">
+    <div class="compare-head"><span>Tanpa Picdrop</span><span>Dengan Picdrop</span></div>
+    <div class="compare-row">
+      <div class="compare-line old"><span class="ico bad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Upload manual satu per satu, event besar bisa berjam-jam</div>
+      <div class="compare-line new"><span class="ico good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>Pindai satu folder, upload ratusan foto sekaligus secara paralel</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-line old"><span class="ico bad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Foto yang sama ke-upload dua kali, potong komisi sendiri</div>
+      <div class="compare-line new"><span class="ico good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>Deteksi duplikat otomatis dari file asli, sebelum ikut ter-upload</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-line old"><span class="ico bad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Salah pilih FotoTree, foto nyasar ke event yang salah</div>
+      <div class="compare-line new"><span class="ico good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>Cari &amp; kunci FotoTree langsung di app sebelum upload jalan</div>
+    </div>
+  </div>
+</section>
+
+<div class="vs-wrap wrap">
+  <div class="vs-card">
+    <div class="vs-head">
+      <h2>Fo**Yu Web Uploader vs Picdrop Desktop</h2>
+      <p>Perbandingan langsung performa pengunggahan foto event untuk fotografer profesional.</p>
+    </div>
+    <div class="vs-scroll">
+    <table class="vs-table">
+      <thead>
+        <tr>
+          <th class="col-feat">Fitur Uploader</th>
+          <th>Fo**Yu Web Uploader</th>
+          <th class="col-us">Picdrop Desktop Uploader</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-feat">Metode Import Foto</td>
+          <td class="col-them">Manual pilih file via browser</td>
+          <td class="col-us">Folder, Subfolder, Watch Folder (Tethering)</td>
+        </tr>
+        <tr>
+          <td class="col-feat">Dukungan Live Tethering</td>
+          <td class="col-them"><span class="vs-x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 6l12 12M18 6L6 18"/></svg>Tidak Ada</span></td>
+          <td class="col-us"><span class="vs-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg>Ya, Auto-Upload Saat Foto Baru Masuk</span></td>
+        </tr>
+        <tr>
+          <td class="col-feat">Kecepatan Upload</td>
+          <td class="col-them">Standar single-thread browser</td>
+          <td class="col-us">⚡ Kompres &amp; upload paralel bersamaan</td>
+        </tr>
+        <tr>
+          <td class="col-feat">Stabilitas Upload Ribuan Foto</td>
+          <td class="col-them">Sering tab macet / koneksi putus</td>
+          <td class="col-us">🛡️ Auto-retry hingga 40x, auto-resume</td>
+        </tr>
+        <tr>
+          <td class="col-feat">Deteksi Duplikat</td>
+          <td class="col-them">Tidak ada, rawan ke-upload dobel</td>
+          <td class="col-us">✅ Otomatis dari file asli, sebelum ter-upload</td>
+        </tr>
+        <tr>
+          <td class="col-feat">Pemilihan FotoTree</td>
+          <td class="col-them">Rawan salah folder, input manual</td>
+          <td class="col-us">🎯 Cari &amp; kunci FotoTree langsung di app</td>
+        </tr>
+        <tr>
+          <td class="col-feat">Monitoring &amp; Analisa</td>
+          <td class="col-them">Buka banyak tab website</td>
+          <td class="col-us last">📊 Dashboard analisa &amp; leaderboard terpadu</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
 </div>
+
+<section class="section" id="fitur">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Semua yang dibutuhkan satu sesi upload — dalam satu layar</h2>
+      <p>Dibangun dari alur kerja fotografer event asli: banyak foto, waktu terbatas, koneksi yang tidak selalu stabil.</p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-content">
+        <div class="feature-num">Tethering</div>
+        <h3>Watch Folder — upload otomatis tanpa sentuh apa-apa</h3>
+        <p class="desc">Arahkan Picdrop ke folder tethering kamera (Capture One, Lightroom, EOS Utility), lalu biarkan app yang kerja. Setiap foto baru yang masuk langsung diunggah sendiri.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Deteksi file baru real-time begitu kamera menembak</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Tetap jalan sambil kamu lanjut motret, tidak perlu drag-drop manual</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Cocok untuk event lari — foto finisher langsung online dalam hitungan detik</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="mock">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="mock-body">
+            <div class="mock-row"><span style="font-size:13px;"><span class="dot-live" style="display:inline-block; margin-right:6px;"></span>Memantau: D:\Tethering\Finish-Line</span><span class="mock-tag on">AKTIF</span></div>
+            <div class="mock-list-item"><span><span class="mock-avatar"></span>IMG_9931.jpg</span><span class="mock-tag on">Terunggah</span></div>
+            <div class="mock-list-item"><span><span class="mock-avatar"></span>IMG_9932.jpg</span><span class="mock-tag on">Terunggah</span></div>
+            <div class="mock-list-item" style="border:none;"><span><span class="mock-avatar"></span>IMG_9933.jpg</span><span class="mock-tag">Mengunggah…</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-content">
+        <div class="feature-num">Upload</div>
+        <h3>Upload paralel dengan <span class="nb">auto-retry</span></h3>
+        <p class="desc">Kompres dan upload berjalan bersamaan, bukan bergantian, jadi koneksi dan CPU kamu bekerja penuh di saat yang sama.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Cari &amp; pilih FotoTree langsung dari app, live dari Fo**Yu</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Retry otomatis hingga 40x kalau koneksi sempat putus</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Pindai subfolder, foto maupun video, dalam satu sesi</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="mock">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="mock-body">
+            <div class="mock-row"><span style="font-size:13px;">DSC_0482.jpg → Borobudur Marathon 10K</span><span class="mock-tag on">OK</span></div>
+            <div class="mock-progress"><i style="width:74%"></i></div>
+            <div class="mock-grid3">
+              <div class="mock-cell"><b>642</b><span>Berhasil</span></div>
+              <div class="mock-cell"><b>12</b><span>Duplikat</span></div>
+              <div class="mock-cell"><b>3</b><span>Retry</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-content">
+        <div class="feature-num">Analisa</div>
+        <h3>Tahu event mana yang paling laku</h3>
+        <p class="desc">Cari event, lihat leaderboard penjual, dan tarik ringkasan per tanggal tanpa buka Fo**Yu berkali-kali.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Pencarian FotoTree lengkap dengan galeri dan leaderboard</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Export hasil analisa ke CSV kapan saja</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Ringkasan per rentang tanggal untuk semua fotomu</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="mock">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="mock-body">
+            <div class="mock-search"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>Cari FotoTree / event...</div>
+            <div class="mock-result active"><span><span class="mock-avatar"></span>Borobudur Marathon 10K</span><span class="mock-tag on">Terkunci</span></div>
+            <div class="mock-result"><span><span class="mock-avatar"></span>Fun Run HUT RI Magelang</span><span class="mock-tag">1.204 foto</span></div>
+            <div class="mock-result"><span><span class="mock-avatar"></span>Trail Run Merbabu Sky</span><span class="mock-tag">832 foto</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-content">
+        <div class="feature-num">Kontrol</div>
+        <h3>Lisensi aman, akun <span class="nb">multi-perangkat</span></h3>
+        <p class="desc">Satu lisensi terkunci ke perangkatmu, dengan cadangan tersimpan di registry supaya nggak diminta aktivasi ulang gara-gara aplikasi cleaner.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Ganti paket lisensi kapan saja dari menu Settings</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Kelola beberapa akun Fo**Yu sekaligus, token tersimpan aman</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Update aplikasi otomatis di latar belakang</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Pantau sisa penyimpanan Hi-Res tiap akun langsung dari sidebar</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="mock">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="mock-body">
+            <div class="mock-list-item"><span><span class="mock-avatar"></span>liocaphotocinema</span><span class="mock-tag on">Aktif</span></div>
+            <div class="mock-list-item"><span><span class="mock-avatar"></span>studio.rangga</span><span class="mock-tag">Tersimpan</span></div>
+            <div class="mock-list-item" style="border:none;"><span style="font-size:12.5px; color:var(--muted);">Lisensi: 6 Bulan</span><span class="mock-tag">184 hari lagi</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-content">
+        <div class="feature-num">Update</div>
+        <h3>Garansi update berkala mengikuti Fo**Yu</h3>
+        <p class="desc">Fo**Yu sering ubah cara kerja sistemnya di balik layar — begitu ada perubahan, Picdrop ikut di-update supaya upload kamu tetap lancar, tanpa perlu install ulang manual.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Update terdeteksi otomatis begitu kamu buka aplikasi</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Download berjalan di latar belakang, tidak mengganggu kerja</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Cukup klik "Install Sekarang" saat siap, sisanya otomatis</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="mock">
+          <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+          <div class="mock-body">
+            <div class="mock-update-banner">
+              <b>Versi baru siap diinstal · v0.1.102</b>
+              <ul>
+                <li>Akun tidak logout sendiri lagi (multi-akun)</li>
+                <li>Upload tidak nyasar ke akun lain saat sesi diperbarui</li>
+                <li>Deteksi video duplikat lebih stabil, termasuk video &gt;2 GB</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="cara-kerja">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Dari folder di laptop sampai tampil di Fo**Yu</h2>
+      <p>Tiga langkah, dijalankan satu app.</p>
+    </div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h4>Pilih Folder &amp; Event</h4>
+        <p>Arahkan Picdrop ke folder foto atau video event, lalu cari dan kunci FotoTree yang sesuai langsung dari app.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h4>Upload Otomatis</h4>
+        <p>Picdrop mengompres dan mengunggah secara paralel, melewati foto duplikat, dan mencoba lagi otomatis kalau koneksi sempat putus.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h4>Pantau &amp; Analisa</h4>
+        <p>Lihat progres real-time di dashboard, lalu cek performa penjualan per event kapan pun kamu butuh.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="harga">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Satu lisensi, semua fitur — tinggal pilih durasinya</h2>
+      <p>Tidak ada fitur yang dikunci per paket. Semakin panjang durasi, semakin hemat per bulannya.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h4>1 Bulan</h4>
+        <div class="amount">Rp100rb</div>
+        <div class="per">Cocok untuk coba dulu di 1–2 event.</div>
+        <button type="button" class="btn btn-ghost btn-block btn-sm" onclick="openModal('package', '1 Bulan')">Pilih Paket</button>
+      </div>
+      <div class="price-card">
+        <h4>2 Bulan</h4>
+        <div class="amount">Rp175rb</div>
+        <div class="per">≈ Rp87.500/bulan.</div>
+        <button type="button" class="btn btn-ghost btn-block btn-sm" onclick="openModal('package', '2 Bulan')">Pilih Paket</button>
+      </div>
+      <div class="price-card popular">
+        <span class="popular-tag">Populer</span>
+        <h4>6 Bulan</h4>
+        <div class="amount">Rp500rb</div>
+        <div class="per">≈ Rp83.300/bulan. Musim event aman.</div>
+        <button type="button" class="btn btn-primary btn-block btn-sm" onclick="openModal('package', '6 Bulan')">Pilih Paket</button>
+      </div>
+      <div class="price-card">
+        <h4>1 Tahun</h4>
+        <div class="amount">Rp1jt</div>
+        <div class="per">≈ Rp83.300/bulan, dibayar sekali.</div>
+        <button type="button" class="btn btn-ghost btn-block btn-sm" onclick="openModal('package', '1 Tahun')">Pilih Paket</button>
+      </div>
+      <div class="price-card">
+        <h4>Lifetime</h4>
+        <div class="amount">Rp4jt</div>
+        <div class="per">Balik modal di tahun ke-4, gratis selamanya setelah itu.</div>
+        <button type="button" class="btn btn-ghost btn-block btn-sm" onclick="openModal('package', 'Lifetime')">Pilih Paket</button>
+      </div>
+    </div>
+    <p class="pricing-note">Belum yakin? Mulai dari trial 2 hari, tanpa kartu kredit.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="cta-band">
+    <div class="cta-band-main">
+    <h2>Siap upload lebih cepat di event berikutnya?</h2>
+    <p>Coba Picdrop gratis 2 hari, atau ngobrol dulu sama admin kalau ada yang mau ditanyakan.</p>
+    <div class="cta-band-btns">
+      <button type="button" class="btn btn-primary" onclick="openModal('trial')">Coba Gratis 2 Hari</button>
+      <a class="btn btn-ghost" href="https://wa.me/6287722121222" target="_blank" rel="noopener">Chat Admin via WhatsApp</a>
+    </div>
+    </div>
+    <div class="cta-band-side">
+    <p class="pricing-note" style="margin-top:24px;">Sudah punya kode lisensi? Download aplikasinya:</p>
+    <div class="cta-band-downloads">
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.102/Picdrop-Upload-Assistant-Setup-0.1.102.exe" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10 4.4v7.1H3V5.5zm8-1.3l9-1.2v8.6h-9V4.2zM3 12.5h7v7.1L3 18.5v-6zm8 0h9v8.7l-9-1.2v-7.5z"/></svg>
+        <span class="dl-text"><b>Windows</b><span>v0.1.102 · .exe</span></span>
+      </a>
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/v0.1.102/Picdrop.Upload.Assistant-0.1.102.dmg" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2c.1 1.1-.3 2.2-1 3-.8.9-2 1.6-3.2 1.5-.1-1.1.4-2.3 1.1-3C14.2 2.6 15.4 2 16.5 2zM20.3 17.4c-.5 1.1-.8 1.6-1.4 2.6-.9 1.4-2.2 3.1-3.8 3.1-1.4 0-1.8-.9-3.7-.9s-2.3.9-3.7.9c-1.6 0-2.8-1.6-3.7-3-2.5-3.9-2.8-8.5-1.2-10.9 1.1-1.7 2.9-2.7 4.5-2.7 1.7 0 2.8 1 4.2 1 1.4 0 2.2-1 4.2-1 1.5 0 3 .8 4.1 2.2-3.6 2-3 7.1.5 8.7z"/></svg>
+        <span class="dl-text"><b>Mac</b><span>v0.1.102 · .dmg</span></span>
+      </a>
+      <a class="dl-btn" href="https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.52/Picdrop-0.1.52.apk" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 9.5l1.4-2.4a.5.5 0 0 0-.9-.5l-1.4 2.5a7.9 7.9 0 0 0-7.4 0L7.9 6.6a.5.5 0 0 0-.9.5l1.4 2.4A7 7 0 0 0 5 16h14a7 7 0 0 0-3.4-6.5zM9.5 13.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM5 17v4a1.5 1.5 0 0 0 3 0v-4H5zm11 0v4a1.5 1.5 0 0 0 3 0v-4h-3zM8.5 17v4.5a1.5 1.5 0 0 0 3 0V17h-3zm4 0v4.5a1.5 1.5 0 0 0 3 0V17h-3z"/></svg>
+        <span class="dl-text"><b>Android</b><span>v0.1.52 · .apk</span></span>
+      </a>
+    </div>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="cara-instal">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Cara install di perangkat kamu</h2>
+      <p>Panduan lengkap langkah demi langkah untuk Windows, Mac (satu file untuk semua Mac, Intel maupun Apple Silicon), dan Android — termasuk cara mengatasi peringatan keamanan yang sering muncul.</p>
+    </div>
+
+    <div class="install-tabs">
+      <button class="tab-btn active" data-tab="win">Windows</button>
+      <button class="tab-btn" data-tab="mac">Mac</button>
+      <button class="tab-btn" data-tab="android">Android</button>
+    </div>
+
+    <div class="install-panel active" id="panel-win">
+      <div class="install-step"><div class="n">01</div><h5>Download &amp; buka file</h5><p>Download installer Windows, lalu buka file .exe yang sudah kedownload.</p></div>
+      <div class="install-step"><div class="n">02</div><h5>Izinkan instalasi</h5><p>Kalau muncul "Windows protected your PC", klik "More info" lalu "Run anyway". Normal, bukan virus — cuma karena aplikasi belum didaftarkan ke Microsoft.</p></div>
+      <div class="install-step"><div class="n">03</div><h5>Ikuti wizard instalasi</h5><p>Pilih folder instalasi (atau biarkan default), klik Install, tunggu sampai selesai.</p></div>
+      <div class="install-step"><div class="n">04</div><h5>Aktivasi lisensi</h5><p>Buka aplikasinya, masukkan kode lisensi yang sudah kamu dapat dari admin.</p></div>
+    </div>
+
+    <div class="install-panel" id="panel-mac">
+      <div class="install-step"><div class="n">01</div><h5>Download &amp; buka file</h5><p>Download file .dmg (satu file untuk semua Mac, Intel maupun Apple Silicon), double-click untuk membukanya.</p></div>
+      <div class="install-step"><div class="n">02</div><h5>Seret ke Applications</h5><p>Di jendela yang muncul, seret ikon Picdrop ke folder Applications. Kalau folder Applications tidak terlihat, tekan ⇧+⌘+A untuk membukanya.</p></div>
+      <div class="install-step"><div class="n">03</div><h5>Izinkan buka pertama kali</h5><p>Kalau muncul peringatan keamanan, buka Terminal (⌘+Spasi, ketik "Terminal") dan jalankan:<code>xattr -cr "/Applications/Picdrop Upload Assistant.app"</code></p></div>
+      <div class="install-step"><div class="n">04</div><h5>Aktivasi lisensi</h5><p>Masukkan kode lisensi yang sudah kamu dapat dari admin.</p></div>
+    </div>
+
+    <div class="install-panel" id="panel-android">
+      <div class="install-step"><div class="n">01</div><h5>Download file .apk</h5><p>Download langsung dari tombol di atas, buka file .apk yang sudah kedownload (biasanya ada di folder "Downloads").</p></div>
+      <div class="install-step"><div class="n">02</div><h5>Izinkan instalasi dari luar Play Store</h5><p>Kalau muncul peringatan "Untuk keamananmu, HP tidak diizinkan menginstal aplikasi tidak dikenal", tekan "Setelan" lalu aktifkan "Izinkan dari sumber ini". Normal, bukan virus — cuma karena aplikasi belum didaftarkan ke Play Store.</p></div>
+      <div class="install-step"><div class="n">03</div><h5>Pasang aplikasi</h5><p>Tekan "Pasang", tunggu sampai selesai, lalu buka aplikasinya.</p></div>
+      <div class="install-step"><div class="n">04</div><h5>Aktivasi lisensi</h5><p>Login dengan akun FotoYu kamu, masukkan kode lisensi yang sudah kamu dapat dari admin.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tethering-software">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Download software tethering kamera</h2>
+      <p>Picdrop memantau folder tempat foto tethering disimpan, jadi kamu bisa memakai software tethering merek apa pun yang menyimpan foto ke folder di komputer. Berikut tautan resmi dari pabrikan kamera dan beberapa software populer.</p>
+    </div>
+
+    <div class="tether-group">
+      <h3>Dari pabrikan kamera</h3>
+      <div class="tether-list">
+        <div class="tether-row">
+          <div class="tether-brand">Canon</div>
+          <div class="tether-main"><h4>EOS Utility</h4><p>Pilih model kamera kamu untuk mengunduh.</p></div>
+          <div class="tether-meta"><span class="tag-free">Gratis</span><span>Windows &amp; Mac</span></div>
+          <a class="btn btn-ghost btn-sm" href="https://www.usa.canon.com/support/eos-utilities" target="_blank" rel="noopener" aria-label="Download EOS Utility (Canon)">Download</a>
+        </div>
+        <div class="tether-row">
+          <div class="tether-brand">Nikon</div>
+          <div class="tether-main"><h4>NX Tether</h4><p>Di Nikon Download Center, cari "NX Tether". Untuk kontrol penuh ada Camera Control Pro 2 (berbayar).</p></div>
+          <div class="tether-meta"><span class="tag-free">Gratis</span><span>Windows &amp; Mac</span></div>
+          <a class="btn btn-ghost btn-sm" href="https://downloadcenter.nikonimglib.com/" target="_blank" rel="noopener" aria-label="Download NX Tether (Nikon)">Download</a>
+        </div>
+        <div class="tether-row">
+          <div class="tether-brand">Sony</div>
+          <div class="tether-main"><h4>Imaging Edge Desktop (Remote)</h4><p>Aplikasi resmi Sony untuk motret dari komputer lewat USB, Wi-Fi, atau LAN.</p></div>
+          <div class="tether-meta"><span class="tag-free">Gratis</span><span>Windows &amp; Mac</span></div>
+          <a class="btn btn-ghost btn-sm" href="https://support.d-imaging.sony.co.jp/app/disoft/en/" target="_blank" rel="noopener" aria-label="Download Imaging Edge Desktop (Remote) (Sony)">Download</a>
+        </div>
+        <div class="tether-row">
+          <div class="tether-brand">Fujifilm</div>
+          <div class="tether-main"><h4>X Acquire</h4><p>Tethering via USB atau Wi-Fi untuk kamera seri X dan GFX.</p></div>
+          <div class="tether-meta"><span class="tag-free">Gratis</span><span>Windows &amp; Mac</span></div>
+          <a class="btn btn-ghost btn-sm" href="https://fujifilm-x.com/global/support/download/software/x-acquire/" target="_blank" rel="noopener" aria-label="Download X Acquire (Fujifilm)">Download</a>
+        </div>
+        <div class="tether-row">
+          <div class="tether-brand">Panasonic</div>
+          <div class="tether-main"><h4>LUMIX Tether</h4><p>Untuk seri S, G, GH, dan BGH.</p></div>
+          <div class="tether-meta"><span class="tag-free">Gratis</span><span>Windows &amp; Mac</span></div>
+          <a class="btn btn-ghost btn-sm" href="https://av.jpn.support.panasonic.com/support/global/cs/soft/download/d_lumixtether.html" target="_blank" rel="noopener" aria-label="Download LUMIX Tether (Panasonic)">Download</a>
+        </div>
+        <div class="tether-row">
+          <div class="tether-brand">OM System</div>
+          <div class="tether-main"><h4>OM Capture</h4><p>Untuk OM-1, OM-1 Mark II, E-M1X, E-M1 Mark III dan II, serta E-M5 Mark II. Siapkan nomor seri kamera untuk mengunduh.</p></div>
+          <div class="tether-meta"><span class="tag-free">Gratis</span><span>Windows &amp; Mac</span></div>
+          <a class="btn btn-ghost btn-sm" href="https://software.omsystem.com/omcapture/" target="_blank" rel="noopener" aria-label="Download OM Capture (OM System)">Download</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="tether-group">
+      <h3>Software untuk banyak merek</h3>
+      <div class="tether-list">
+        <div class="tether-row">
+          <div class="tether-brand">Adobe</div>
+          <div class="tether-main"><h4>Lightroom Classic</h4><p>Tethered capture untuk banyak kamera Canon, Nikon, dan Sony.</p></div>
+          <div class="tether-meta"><span class="tag-paid">Berbayar</span><span>Windows &amp; Mac</span></div>
+          <a class="btn btn-ghost btn-sm" href="https://www.adobe.com/products/photoshop-lightroom-classic.html" target="_blank" rel="noopener" aria-label="Download Lightroom Classic (Adobe)">Download</a>
+        </div>
+        <div class="tether-row">
+          <div class="tether-brand">Capture One</div>
+          <div class="tether-main"><h4>Capture One</h4><p>Tethering profesional untuk banyak merek kamera.</p></div>
+          <div class="tether-meta"><span class="tag-paid">Berbayar</span><span>Windows &amp; Mac</span></div>
+          <a class="btn btn-ghost btn-sm" href="https://www.captureone.com/en" target="_blank" rel="noopener" aria-label="Download Capture One (Capture One)">Download</a>
+        </div>
+        <div class="tether-row">
+          <div class="tether-brand">digiCamControl</div>
+          <div class="tether-main"><h4>digiCamControl</h4><p>Alternatif gratis untuk kamera Canon dan Nikon.</p></div>
+          <div class="tether-meta"><span class="tag-free">Gratis</span><span>Windows</span></div>
+          <a class="btn btn-ghost btn-sm" href="https://digicamcontrol.com/" target="_blank" rel="noopener" aria-label="Download digiCamControl (digiCamControl)">Download</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="tether-note">Merek lain (Pentax, Leica, dan lainnya): cek halaman dukungan pabrikan atau <a href="https://wa.me/6287722121222?text=Halo%2C%20saya%20butuh%20software%20tethering%20untuk%20kamera%20saya." target="_blank" rel="noopener">tanya admin lewat WhatsApp</a>. Ketersediaan dan versi software mengikuti pabrikan masing-masing.</p>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="section-head" style="max-width:840px; margin-left:auto; margin-right:auto;">
+      <h2>Pertanyaan Sering Diajukan</h2>
+      <p>Petunjuk instalasi untuk macOS &amp; Windows serta info seputar lisensi dan penggunaan Picdrop.</p>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2c.1 1.1-.3 2.2-1 3-.8.9-2 1.6-3.2 1.5-.1-1.1.4-2.3 1.1-3C14.2 2.6 15.4 2 16.5 2zM20.3 17.4c-.5 1.1-.8 1.6-1.4 2.6-.9 1.4-2.2 3.1-3.8 3.1-1.4 0-1.8-.9-3.7-.9s-2.3.9-3.7.9c-1.6 0-2.8-1.6-3.7-3-2.5-3.9-2.8-8.5-1.2-10.9 1.1-1.7 2.9-2.7 4.5-2.7 1.7 0 2.8 1 4.2 1 1.4 0 2.2-1 4.2-1 1.5 0 3 .8 4.1 2.2-3.6 2-3 7.1.5 8.7z"/></svg></span>
+          Bagaimana cara membuka &amp; install Picdrop di macOS? (Unsigned App / Gatekeeper Warning)
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-body">
+          <p>Karena Picdrop versi ini belum pakai sertifikat Notarisasi Apple Developer ID berbayar, macOS Gatekeeper mungkin menampilkan pesan seperti:</p>
+          <div class="faq-warn">"Picdrop Upload Assistant is damaged and can't be opened. You should move it to the Trash" atau "Unidentified Developer".</div>
+          <p><b>Solusi paling cepat (via Terminal):</b></p>
+          <ul>
+            <li>Seret <b>Picdrop Upload Assistant.app</b> dari file .dmg ke folder <b>Applications</b>.</li>
+            <li>Buka <b>Terminal</b> (⌘+Spasi, ketik "Terminal", Enter).</li>
+            <li>Salin dan jalankan perintah berikut:</li>
+          </ul>
+          <div class="faq-cmd"><span>xattr -cr "/Applications/Picdrop Upload Assistant.app"</span><button class="faq-copy" onclick="navigator.clipboard.writeText('xattr -cr \'/Applications/Picdrop Upload Assistant.app\'')">Salin Perintah</button></div>
+          <p>Perintah di atas menghapus tanda karantina macOS. Setelah itu, klik 2x aplikasi Picdrop untuk langsung menggunakannya.</p>
+          <p><b>Metode alternatif (tanpa Terminal):</b></p>
+          <ul>
+            <li>Klik kanan (Right-Click) pada Picdrop → pilih <b>Open</b> → klik <b>Open Anyway</b> pada pop-up konfirmasi.</li>
+            <li>Atau buka <b>System Settings</b> → <b>Privacy &amp; Security</b> → scroll ke bagian Security → klik <b>Open Anyway</b>.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></span>
+          Bagaimana cara install Picdrop di Windows?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-body">
+          <p>Download installer .exe, lalu buka file yang sudah kedownload. Kalau muncul <b>"Windows protected your PC"</b>, klik <b>More info</b> lalu <b>Run anyway</b> — ini normal, bukan virus, cuma karena aplikasi belum didaftarkan ke Microsoft. Ikuti wizard instalasi, lalu masukkan kode lisensi saat aplikasi pertama kali dibuka.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9l6 6M15 9l-6 6"/></svg></span>
+          Satu lisensi bisa dipakai di berapa perangkat?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-body">
+          <p>Satu kode lisensi terkunci ke <b>satu perangkat</b>. Kalau ganti laptop atau install ulang OS, hubungi admin via WhatsApp untuk bantuan pemindahan lisensi — <b>sisa masa berlaku tetap dilanjutkan</b>, tidak mulai dari nol (pasang Picdrop versi terbaru di laptop barumu lebih dulu). Cadangan aktivasi juga tersimpan di Windows Registry, jadi lisensi tidak gampang hilang gara-gara aplikasi cleaner.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5M20 12a8 8 0 0 1-14 5M20 4v5h-5M4 20v-5h5"/></svg></span>
+          Koneksi internet sempat putus saat upload, apa yang terjadi?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-body">
+          <p>Picdrop otomatis mencoba ulang foto yang gagal hingga 40x dalam beberapa ronde, dengan jeda yang makin panjang. Kamu tidak perlu mengulang upload dari awal — cukup biarkan app berjalan, sisanya ditangani otomatis.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+          Apakah foto yang sama bisa ke-upload dua kali?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-body">
+          <p>Tidak. Picdrop menghitung sidik jari (hash) dari file asli sebelum upload jalan, jadi foto yang sudah pernah diunggah otomatis dilewati — komisi kamu aman, tidak terpotong dua kali untuk foto yang sama.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0z"/><path d="M12 8v4l3 2"/></svg></span>
+          Mau coba dulu — trial 2 hari perlu kartu kredit?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-body">
+          <p>Tidak perlu. Chat admin via WhatsApp untuk minta trial 2 hari, tanpa kartu kredit dan tanpa komitmen. Kalau cocok, tinggal pilih paket lisensi yang sesuai kebutuhan event kamu.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">
+          <svg class="brand-mark" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2C16 2 6 14.5 6 21.5C6 27 10.5 30 16 30C21.5 30 26 27 26 21.5C26 14.5 16 2 16 2Z" fill="url(#g2)"/>
+            <defs><linearGradient id="g2" x1="6" y1="2" x2="26" y2="30" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#3AA0FF"/><stop offset="1" stop-color="#22D3B8"/>
+            </linearGradient></defs>
+          </svg>
+          <div class="brand-text"><b>picdrop</b><span>powered by lioca</span></div>
+        </div>
+        <p>Alat bantu upload untuk fotografer yang mengunggah ke Fo**Yu setiap minggu.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Produk</h5>
+        <a href="#fitur">Fitur</a>
+        <a href="#cara-kerja">Cara Kerja</a>
+        <a href="#harga">Harga</a>
+        <a href="#cara-instal">Cara Instal</a>
+        <a href="#tethering-software">Software Tethering</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="foot-col">
+        <h5>Kontak</h5>
+        <a href="https://wa.me/6287722121222?text=Halo%2C%20saya%20mau%20tanya-tanya%20soal%20Picdrop%20Upload%20Assistant." target="_blank" rel="noopener">WhatsApp Admin</a>
+        <a href="javascript:void(0)" onclick="openModal('trial')">Minta Trial 2 Hari</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      © 2026 Picdrop Upload Assistant. Tools pihak ketiga, tidak berafiliasi resmi dengan Fo**Yu. Dibuat Lioca untuk fotografer.
+    </div>
+  </div>
+</footer>
+
 <script>
-  // Selalu ambil versi terbaru dari android-version.json, lalu langsung unduh.
-  fetch("/android-version.json?t=" + Date.now(), {cache: "no-store"})
-    .then(function(r){ return r.json(); })
-    .then(function(j){
-      document.getElementById("dl").href = j.url;
-      document.getElementById("msg").textContent =
-        "Versi terbaru v" + j.versionName + ". Download dimulai otomatis — kalau tidak, ketuk tombol di bawah. Install di atas aplikasi lama, tidak perlu uninstall.";
-      location.replace(j.url);
-    })
-    .catch(function(){
-      document.getElementById("msg").textContent = "Ketuk tombol di bawah untuk download.";
+document.addEventListener('DOMContentLoaded', function(){
+  // Live-looking uploaded counter
+  (function(){
+    var el = document.getElementById('counter');
+    var n = 0;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = '1248';
+      return;
+    }
+    setInterval(function(){
+      n += Math.floor(Math.random()*3)+1;
+      el.textContent = String(n).padStart(4, '0');
+    }, 900);
+  })();
+
+  // Mobile menu toggle
+  (function(){
+    var toggle = document.getElementById('navToggle');
+    var menu = document.getElementById('mobileMenu');
+    toggle.addEventListener('click', function(){
+      menu.classList.toggle('open');
     });
+    menu.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){ menu.classList.remove('open'); });
+    });
+  })();
+
+  // Trial / Pilih Paket modal
+  (function(){
+    var overlay = document.getElementById('modalOverlay');
+    var title = document.getElementById('modalTitle');
+    var sub = document.getElementById('modalSub');
+    var step1 = document.getElementById('modalStep1');
+    var step2 = document.getElementById('modalStep2');
+    var form = document.getElementById('modalForm');
+    var closeBtn = document.getElementById('modalClose');
+    var backBtn = document.getElementById('modalBack');
+    var currentPackage = null;
+    var currentType = 'trial';
+
+    var priceMap = { '1 Bulan': 100000, '2 Bulan': 175000, '6 Bulan': 500000, '1 Tahun': 1000000, 'Lifetime': 4000000 };
+
+    window.openModal = function(type, packageName){
+      currentType = type;
+      currentPackage = packageName || null;
+      step1.style.display = 'block';
+      step2.style.display = 'none';
+      if(type === 'package'){
+        title.textContent = 'Pilih Paket: ' + packageName;
+        sub.textContent = 'Isi data singkat ini dulu, langkah berikutnya info pembayaran.';
+      } else {
+        title.textContent = 'Coba Gratis 2 Hari';
+        sub.textContent = 'Isi data singkat ini, admin kami akan langsung menghubungi kamu via WhatsApp.';
+      }
+      overlay.classList.add('open');
+      document.getElementById('fNama').focus();
+    };
+    function closeModal(){
+      overlay.classList.remove('open');
+      form.reset();
+      document.getElementById('uploadText').textContent = 'Klik untuk pilih screenshot bukti transfer';
+      buktiFileName = '';
+      buktiBase64 = '';
+      buktiMime = '';
+    }
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
+    backBtn.addEventListener('click', function(){ step1.style.display='block'; step2.style.display='none'; });
+
+    window.copyText = function(text){
+      navigator.clipboard.writeText(text);
+    };
+
+    var namaVal, waVal, userVal, buktiFileName = '', buktiBase64 = '', buktiMime = '';
+    var UPLOAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwmGIwNxQuFiHATkNe7dhvWsbYcqO5JgcoyTGycT2ssoTBGjtnxexWno3RAjYFl4riTcA/exec';
+
+    document.getElementById('fBukti').addEventListener('change', function(e){
+      var f = e.target.files[0];
+      buktiFileName = '';
+      buktiBase64 = '';
+      buktiMime = '';
+      if(!f){
+        document.getElementById('uploadText').textContent = 'Klik untuk pilih screenshot bukti transfer';
+        return;
+      }
+      document.getElementById('uploadText').textContent = 'Membaca file...';
+      var reader = new FileReader();
+      reader.onload = function(ev){
+        var result = ev.target.result; // "data:image/jpeg;base64,...."
+        buktiBase64 = result.split(',')[1] || '';
+        buktiFileName = f.name;
+        buktiMime = f.type || 'image/jpeg';
+        document.getElementById('uploadText').textContent = 'Terpilih: ' + f.name;
+      };
+      reader.onerror = function(){
+        document.getElementById('uploadText').textContent = 'Gagal membaca file, coba pilih lagi';
+      };
+      reader.readAsDataURL(f);
+    });
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      namaVal = document.getElementById('fNama').value.trim();
+      waVal = document.getElementById('fWa').value.trim();
+      userVal = document.getElementById('fUser').value.trim();
+
+      if(currentType === 'package'){
+        // go to step 2: payment info
+        document.getElementById('payPackageName').textContent = currentPackage;
+        document.getElementById('payAmount').textContent = 'Rp' + priceMap[currentPackage].toLocaleString('id-ID');
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+      } else {
+        var msg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') + '. Saya fotografer Fo**Yu dan mau coba Picdrop Upload Assistant gratis 2 hari. Boleh dibantu?';
+        window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(msg), '_blank');
+        closeModal();
+      }
+    });
+
+    document.getElementById('step2Submit').addEventListener('click', function(){
+      var btn = this;
+      var amountText = document.getElementById('payAmount').textContent;
+
+      function sendWa(fileUrl){
+        var msg = 'Halo, saya ' + namaVal + ' (WA: ' + waVal + ')' + (userVal ? ', username Fo**Yu: ' + userVal : '') +
+          '. Saya sudah transfer untuk paket Picdrop ' + currentPackage + ' sebesar ' + amountText +
+          (fileUrl ? '. Bukti transfer: ' + fileUrl : (buktiFileName ? ' (bukti TF: ' + buktiFileName + ', akan saya lampirkan di chat ini)' : '')) +
+          '. Mohon dicek dan diproses aktivasi lisensinya.';
+        window.open('https://wa.me/6287722121222?text=' + encodeURIComponent(msg), '_blank');
+        closeModal();
+        btn.disabled = false;
+        btn.textContent = 'Kirim Konfirmasi via WhatsApp';
+      }
+
+      if(!buktiBase64){
+        // no file selected — proceed without upload
+        sendWa(null);
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Mengupload bukti TF...';
+
+      fetch(UPLOAD_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          packageName: currentPackage,
+          fileName: buktiFileName,
+          mimeType: buktiMime,
+          fileData: buktiBase64
+        })
+      })
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          if(data && data.ok){
+            sendWa(data.fileUrl);
+          } else {
+            alert('Upload bukti TF gagal: ' + (data && data.error ? data.error : 'error tidak diketahui') + '. Lanjut ke WhatsApp saja dulu.');
+            sendWa(null);
+          }
+        })
+        .catch(function(){
+          alert('Gagal menghubungi server upload. Lanjut ke WhatsApp, lampirkan bukti TF manual ya.');
+          sendWa(null);
+        });
+    });
+  })();
+
+  // Install tabs
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('.install-panel').forEach(function(p){ p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+});
 </script>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+
+    <div id="modalStep1">
+      <h3 id="modalTitle">Coba Gratis 2 Hari</h3>
+      <p class="modal-sub" id="modalSub">Isi data singkat ini, admin kami akan langsung menghubungi kamu via WhatsApp.</p>
+      <form id="modalForm">
+        <div class="modal-field">
+          <label for="fNama">Nama Lengkap</label>
+          <input type="text" id="fNama" placeholder="Nama kamu" required>
+        </div>
+        <div class="modal-field">
+          <label for="fWa">Nomor WhatsApp</label>
+          <input type="tel" id="fWa" placeholder="08xxxxxxxxxx" required>
+        </div>
+        <div class="modal-field">
+          <label for="fUser">Username Fo**Yu (opsional)</label>
+          <input type="text" id="fUser" placeholder="username kamu di Fo**Yu">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="step1Submit">Lanjut ke WhatsApp</button>
+      </form>
+    </div>
+
+    <div id="modalStep2" style="display:none;">
+      <button class="modal-back" id="modalBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>Kembali</button>
+      <h3>Pembayaran Paket <span id="payPackageName"></span></h3>
+      <p class="modal-sub">Transfer sesuai nominal, upload bukti TF untuk diingat, lalu lanjutkan ke WhatsApp untuk konfirmasi.</p>
+
+      <div class="pay-summary">
+        <span>Total transfer</span>
+        <b id="payAmount">Rp0</b>
+      </div>
+
+      <div class="pay-methods">
+        <div class="pay-method">
+          <div class="pm-label">Transfer bank BCA a.n. Dwi Yudianto</div>
+          <div class="pm-value"><span>8465804455</span><button type="button" class="pay-copy" onclick="copyText('8465804455')">Salin</button></div>
+        </div>
+      </div>
+
+      <label class="upload-box" id="uploadBox">
+        <input type="file" id="fBukti" accept="image/*" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M12 4L7 9M12 4l5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
+        <p id="uploadText">Klik untuk pilih screenshot bukti transfer</p>
+        <span>JPG/PNG — untuk kamu lampirkan manual di chat WhatsApp</span>
+      </label>
+
+      <button type="button" class="btn btn-primary btn-block" id="step2Submit">Kirim Konfirmasi via WhatsApp</button>
+      <p class="modal-note">Setelah kirim, lampirkan screenshot bukti transfer di chat WhatsApp yang terbuka — admin akan cek dan proses aktivasi lisensi.</p>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
