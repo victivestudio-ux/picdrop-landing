@@ -1,7 +1,7 @@
 {
-  "versionCode": 54,
-  "versionName": "0.1.53",
-  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.53/Picdrop-0.1.53.apk",
-  "notes": "🔧 Perbaikan & tampilan baru\n• Hapus fitur Ganjil/Genap yang sempat nongol lagi (gak sengaja kebawa, sekarang bersih)\n• Ikon Aksi Cepat jadi lingkaran dengan cincin neon\n• Log tethering lebih tahan lama dipakai (gak berhenti sendiri saat sesi panjang)\n• Banner \"Restart aplikasi\" otomatis muncul setelah update, supaya versi terbaru pasti aktif",
+  "versionCode": 55,
+  "versionName": "0.1.54",
+  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.54/Picdrop-0.1.54.apk",
+  "notes": "✨ Baru\n• Beranda sekarang punya 9 pintasan Aksi Cepat (nambah Mode Jepret, Progres upload, Analisis Foto, Akun, Lisensi, Analisa Event) — langsung ketuk dari Beranda, gak perlu buka tab satu-satu lagi",
   "mandatory": false
 }
