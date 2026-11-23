@@ -1,7 +1,7 @@
 {
-  "versionCode": 55,
-  "versionName": "0.1.54",
-  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.54/Picdrop-0.1.54.apk",
-  "notes": "✨ Baru\n• Beranda sekarang punya 9 pintasan Aksi Cepat (nambah Mode Jepret, Progres upload, Analisis Foto, Akun, Lisensi, Analisa Event) — langsung ketuk dari Beranda, gak perlu buka tab satu-satu lagi",
-  "mandatory": false
+  "versionCode": 56,
+  "versionName": "0.1.55",
+  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.55/Picdrop-0.1.55.apk",
+  "notes": "🚨 Update wajib\n• Memperbaiki bug build sebelumnya yang salah bawa pengaturan Bokeh/Skintone (seharusnya cuma ada di build pribadi internal, bukan versi pelanggan)\n• Beranda tetap punya 9 pintasan Aksi Cepat seperti sebelumnya",
+  "mandatory": true
 }
