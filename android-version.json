@@ -1,7 +1,7 @@
 {
-  "versionCode": 57,
-  "versionName": "0.1.56",
-  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.56/Picdrop-0.1.56.apk",
-  "notes": "🔧 Update penting — mohon segera update\n• Beranda sekarang punya 9 pintasan Aksi Cepat (Mode Jepret, Progres upload, Analisis Foto, Akun, Lisensi, Analisa Event)\n• Fitur Ganjil/Genap kini tersedia — pisah upload foto ganjil/genap dengan harga & jam tunda sendiri\n• Perbaikan kecil lainnya",
+  "versionCode": 58,
+  "versionName": "0.1.57",
+  "url": "https://github.com/victivestudio-ux/picdrop-downloads/releases/download/android-v0.1.57/Picdrop-0.1.57.apk",
+  "notes": "🔧 Update penting — mohon segera update\n• Perbaikan: tombol \"Nyalakan tethering\" yang tidak merespons sama sekali di v0.1.56 sekarang sudah berfungsi normal\n• Ganjil/Genap kini juga berfungsi saat tethering — foto genap ditahan sampai jam yang diisi, bukan ikut terupload langsung",
   "mandatory": true
 }
